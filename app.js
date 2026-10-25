@@ -676,6 +676,10 @@
   window.addEventListener("hashchange", () => { closeModal(); route(); window.scrollTo(0, 0); });
 
   $("#collected").textContent = new Date(window.ELECTION.collected + "T12:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  // Keep sticky section headers just below the site header, whose height changes on narrow screens.
+  const setHeaderHeight = () => document.documentElement.style.setProperty("--header-h", `${$(".site-header").offsetHeight}px`);
+  new ResizeObserver(setHeaderHeight).observe($(".site-header"));
+  setHeaderHeight();
   updateNavCount();
   route();
 })();

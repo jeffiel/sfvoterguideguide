@@ -70,7 +70,12 @@ h3 { font-size: 18px; }
 .lede { color: var(--ink-2); font-size: 17px; max-width: 760px; margin: 8px 0 0; }
 .muted { color: var(--ink-3); }
 .small { font-size: 13px; }
-.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+.section-head {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 26px 0 12px; padding: 10px 0 8px; border-bottom: 2px solid var(--ink);
+  /* Stays pinned under the site header while its section scrolls by; --header-h is set from app.js. */
+  position: sticky; top: var(--header-h, 64px); z-index: 10; background: var(--bg);
+  box-shadow: -12px 0 0 var(--bg), 12px 0 0 var(--bg); /* hide card shadows peeking out at the sides */
+}
 .section-head h2 { font-size: 22px; }
 
 .pill {
