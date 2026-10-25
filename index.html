@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SF Ballot Compare — November 3, 2026</title>
+  <meta name="description" content="Compare what San Francisco's major voter guides recommend for the November 3, 2026 election, and read their reasoning side by side.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#/">
+        <span class="brand-mark">SF</span>
+        <span class="brand-text">
+          <strong>Ballot Compare</strong>
+          <small>November 3, 2026 General Election</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#/" data-nav="ballot">Ballot</a>
+        <a href="#/matrix" data-nav="matrix">Grid</a>
+        <a href="#/guides" data-nav="guides">Guides</a>
+        <a href="#/mine" data-nav="mine">My ballot <span class="nav-count" id="nav-count"></span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="wrap" tabindex="-1"></main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-x" data-close aria-label="Close">×</button>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>An independent, unofficial tool. Positions and reasoning are summarized from each guide's public page as of <span id="collected"></span>; quotes are verbatim. Always click through to the original source, and check <a href="https://www.sf.gov/departments/department-elections" target="_blank" rel="noopener">SF Department of Elections</a> for official ballot information. Your picks are stored only in this browser.</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
