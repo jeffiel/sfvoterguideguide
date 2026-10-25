@@ -248,7 +248,7 @@
     for (const sec of SECTIONS) {
       const items = ITEMS.filter((i) => i.section === sec.id);
       const key = sec.id === "races" ? `<span class="muted small">${esc(sec.blurb)}</span>`
-        : `<div class="dots key" aria-hidden="true">${activeGuides().map((g) => `<span class="dot key" title="${esc(g.name)}">${ABBR[g.id]}</span>`).join("")}</div>`;
+        : `<div class="dots votes key" aria-hidden="true">${activeGuides().map((g) => `<span class="dot key" title="${esc(g.name)}">${ABBR[g.id]}</span>`).join("")}</div>`;
       html += `<div class="section-head"><div><h2>${esc(sec.title)}</h2>${sec.id !== "races" ? `<span class="muted small">${esc(sec.blurb)} · hover a square to see the guide</span>` : ""}</div>${key}</div><div class="item-list">`;
       for (const i of items) html += i.kind === "measure" ? measureRow(i) : raceRow(i);
       html += `</div>`;
@@ -271,7 +271,7 @@
         <div class="item-sub">${esc(m.title)} · ${esc(m.type)}</div>
       </div>
       <div class="item-side">
-        <div class="dots" aria-label="Guide positions">${dots}</div>
+        <div class="dots votes" aria-label="Guide positions">${dots}</div>
         <div class="tally"><b class="y">${t.yes} yes</b> · <b class="n">${t.no} no</b>${t.neutral ? ` · ${t.neutral} neutral` : ""}${v ? ` · <span class="my-tag">You: ${POS_LABEL[v]}</span>` : ""}</div>
       </div>
     </a>`;
