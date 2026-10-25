@@ -371,3 +371,4 @@ table.matrix { border-collapse: collapse; width: 100%; font-size: 13px; }
 @media print { .filter, .filter-compact { display: none !important; } }
 .hidden-line { font-size: 13px; color: var(--ink-3); padding: 6px 4px 2px; border-top: 1px dashed var(--rule-2); }
 .linkish { border: 0; background: none; padding: 0; color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: inherit; }
+.site-footer .credit { margin-top: 8px; }
