@@ -2,7 +2,13 @@
 
 An interactive, static website that shows what San Francisco's major voter guides recommend and lets voters read the guides' reasoning side by side, with links to each original source.
 
-Open `index.html` in a browser. There is no build step and no server. You can deploy it to any static host (GitHub Pages, Netlify, etc.).
+**Live site: https://sfvoterguideguide.com**
+
+Open `index.html` in a browser to run it locally. There is no build step and no server.
+
+## Deployment
+
+The site is hosted on Cloudflare. Every push to `main` triggers a Cloudflare build, which deploys to https://sfvoterguideguide.com. GitHub Pages is not used.
 
 ## Features
 
