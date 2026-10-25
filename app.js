@@ -17,7 +17,7 @@
   const ORDER = SECTIONS.flatMap((s) => ITEMS.filter((i) => i.section === s.id).map((i) => i.id));
   const POS_LABEL = { yes: "Yes", no: "No", neutral: "No position" };
   const POS_SHORT = { yes: "Y", no: "N", neutral: "–" };
-  const ABBR = { spur: "SP", growsf: "GR", lwv: "LW", sfbg: "BG", chamber: "CC", sda: "SD", gop: "R", green: "GN", dsa: "DS", sfdems: "D", yimby: "YI" };
+  const ABBR = { spur: "SP", growsf: "GR", lwv: "LW", chron: "CH", sfbg: "BG", chamber: "CC", sda: "SD", gop: "R", green: "GN", dsa: "DS", sfdems: "D", yimby: "YI" };
 
   // ---------------------------------------------------------------- state
   const STORE_KEY = "sfvote-2026-11";
@@ -231,7 +231,7 @@
     let html = `<section class="hero">
       <div>
         <h1>See what every major guide recommends — and why.</h1>
-        <p class="lede">${GUIDES.length} San Francisco voter guides, from SPUR and GrowSF to the League of Women Voters, the Bay Guardian, and the major parties, lined up side by side. Open any measure to compare their reasoning, then click through to the original source.</p>
+        <p class="lede">${GUIDES.length} San Francisco voter guides, from SPUR and GrowSF to the League of Women Voters, the Chronicle, the Bay Guardian, and the major parties, lined up side by side. Open any measure to compare their reasoning, then click through to the original source.</p>
       </div>
       <div class="hero-side">
         <div>${when} · Tuesday, Nov 3</div>
@@ -521,7 +521,7 @@
           </div>
         </div>`;
       }).join("")}</div>
-      <p class="muted small" style="margin-top:22px">Coverage gaps: the SF Chronicle's 2026 endorsements couldn't be retrieved automatically, the SF Chamber's candidate endorsements are only in a PDF, and DSA SF is limited to items whose wording we could verify. Check those sources directly.</p>`;
+      <p class="muted small" style="margin-top:22px">Coverage gaps: the Chronicle hadn't yet endorsed for Board of Education or the uncontested races, the SF Chamber's candidate endorsements are only in a PDF, and DSA SF is limited to items whose wording we could verify. Check those sources directly.</p>`;
   }
 
   function viewMine() {

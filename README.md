@@ -17,10 +17,10 @@ Open `index.html` in a browser. There is no build step and no server. You can de
 
 All content lives in `data.js`. The data was collected on Oct 25, 2026 from the guides' public pages. Summaries paraphrase each guide's own reasoning. Quotes are verbatim. Every entry links back to its source.
 
-Guides included: SPUR, GrowSF, League of Women Voters (SF for local measures, California for state props), SF Bay Guardian, SF Chamber of Commerce, Senior & Disability Action, SF Republican Party, SF Green Party, DSA SF (only items whose wording was verified), SF Democratic Party (positions only), and YIMBY Action (positions only).
+Guides included: SPUR, GrowSF, League of Women Voters (SF for local measures, California for state props), SF Chronicle Editorial Board, SF Bay Guardian, SF Chamber of Commerce, Senior & Disability Action, SF Republican Party, SF Green Party, DSA SF (only items whose wording was verified), SF Democratic Party (positions only), and YIMBY Action (positions only).
 
 Known gaps:
-- The SF Chronicle's 2026 endorsements were blocked by a bot check.
+- The SF Chronicle's endorsements were added from a PDF of its endorsements page, since its site blocks automated fetching. Its Board of Education pick was still "coming soon" when that PDF was saved.
 - The SF Chamber's candidate endorsements are only in a PDF.
 - 48hills had not published a slate.
 

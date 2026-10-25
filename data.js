@@ -33,6 +33,13 @@ window.GUIDES = [
     depth: "Detailed reasoning",
   },
   {
+    id: "chron", name: "SF Chronicle Editorial Board", short: "Chronicle",
+    kind: "Newspaper editorial board",
+    blurb: "The San Francisco Chronicle's editorial board (opinion staff, separate from the newsroom). A short rationale per item, each linked to a full editorial. Note: the Chronicle's site may require a subscription.",
+    url: "https://www.sfchronicle.com/projects/2026/california-sf-election-endorsements/",
+    depth: "Editorial reasoning",
+  },
+  {
     id: "sfbg", name: "SF Bay Guardian", short: "Guardian",
     kind: "Progressive publication",
     blurb: "Progressive news outlet's endorsement editorial and Clean Slate guide.",
@@ -109,8 +116,8 @@ window.PRESETS = [
   },
   {
     id: "moderate", label: "Moderate / pro-housing",
-    desc: "SF's moderate, pro-housing, good-government coalition, plus the Chamber of Commerce.",
-    guides: ["growsf", "yimby", "spur", "chamber"],
+    desc: "SF's moderate, pro-housing, good-government coalition, plus the Chamber of Commerce and the Chronicle editorial board.",
+    guides: ["growsf", "yimby", "spur", "chamber", "chron"],
   },
   {
     id: "conservative", label: "Conservative / business",
@@ -150,6 +157,7 @@ const LWVC = "https://my.lwv.org/node/73812";
 const DSA = "https://dsasf.org/vote";
 const GROW = "https://growsf.org/voter-guide/san-francisco-voter-guide-november-2026-election/";
 const SPUR = "https://www.spur.org/voter-guide/2026-11/";
+const CHRON = "https://www.sfchronicle.com/opinion/editorials/article/";
 
 window.MEASURES = [
   // ------------------------------------------------------------- Local: A
@@ -164,6 +172,7 @@ window.MEASURES = [
       { label: "Legislative digest", url: "https://api.sf.gov/documents/60914/Nov2026_CA_DepartmentBoardCommissionandAdvisoryBodyUpdates_LegislativeDigest.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Says the City Charter has piled up commissions, reporting requirements, and procedural rules for a San Francisco that no longer exists, and that Prop A would clean it up to better serve residents.", q: "Prop A would clean up San Francisco’s bloated charter to better serve city residents.", u: CHRON + "prop-a-san-francisco-22431575.php" },
       spur: { p: "yes", s: "SPUR calls Prop A a worthwhile housekeeping package. It removes unnecessary detail from the charter and modernizes outdated provisions, in line with SPUR's Charter for Change recommendations. SPUR's concerns: the package skips the more controversial reforms, adopts only some of the task force's recommendations, and lets the Board amend certain voter-adopted ordinances.", q: "it nonetheless reflects a worthwhile housekeeping package worthy of voters’ support.", u: SPUR + "sf-prop-a-departments-and-commission" },
       growsf: { p: "yes", s: "Cuts the number of Charter boards and commissions from 55 to 38, moves 9 into the Municipal Code, and schedules a review every ten years. GrowSF argues that commissions shielded from the Mayor blur responsibility, and that A gives department heads a clear line of accountability to elected officials.", q: "Prop A restores a functional chain of command so that individuals are clearly responsible for success or failure.", u: GROW + "measures/prop-a/" },
       lwv: { p: "no", s: "Opposes because A moves many commissions out of the Charter, weakens their authority, makes commissioner qualifications optional, and drops annual reports. The League says it goes far beyond charter cleanup and conflicts with its positions on strong oversight, public participation, and accountability.", q: "Proposition A isn’t really reform. It’s a large set of changes that weaken public control.", u: LWVSF },
@@ -188,6 +197,7 @@ window.MEASURES = [
       { label: "Legislative digest", url: "https://api.sf.gov/documents/60916/Nov2026_CA_Municipal_Finance_Corporation_and_Public_Bank_LegislativeDigest.pdf" },
     ],
     positions: {
+      chron: { p: "no", s: "Calls a public bank supporting social and economic justice a noble idea, but argues good intentions don't make a good institution and that B's municipal finance corporation is set up to fail.", q: "But good intentions do not automatically make a good institution — and Prop B is set up to fail.", u: CHRON + "prop-b-bank-san-francisco-22422523.php" },
       spur: { p: "no", s: "SPUR says a well-designed public bank could help finance affordable housing, small businesses, and climate projects. It objects that B writes detailed governance structures into the charter when ordinance and administrative action would work. Its concerns: the measure doesn't say how the bank would be capitalized, and it may need General Fund or new revenue during a deficit.", q: "SPUR does not believe adding new charter-defined commissions and requirements is the right approach.", u: SPUR + "sf-prop-b-public-bank" },
       growsf: { p: "no", s: "Creates a city-owned Municipal Finance Corporation now and a Public Bank later, with no money appropriated. GrowSF argues the bank would need FDIC deposit insurance that government-owned banks don't get, and that its overseers are exempt from the Sunshine Ordinance. Says a more modest infrastructure-financing proposal would get more sympathy.", q: "You should vote against Prop B on the merits.", u: GROW + "measures/prop-b/" },
       lwv: { p: "yes", s: "Supports B because it lets the City launch a public bank only once the bank is financially sustainable and approved by regulators, so municipal dollars work for the public good. Cites strong governance, guardrails, and no spending requirement.", q: "lets our local government launch a public bank once it’s financially sustainable and approved by regulators", u: LWVSF },
@@ -212,6 +222,7 @@ window.MEASURES = [
       { label: "Legislative digest", url: "https://api.sf.gov/documents/60918/Nov2026_CA_HousingTrustFund_LegislativeDigest.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Says C won't solve the housing crisis, but it's part of a thoughtful city effort, and it's the only measure on the ballot that gives a predictable source of public investment as building costs rise.", q: "Prop C will not solve San Francisco’s housing crisis, but it is part of a concerted and thoughtful city-directed effort to stem the bleeding.", u: CHRON + "prop-c-housing-san-francisco-22443843.php" },
       spur: { p: "yes", s: "SPUR says affordable housing money is urgently needed, state and federal funding is unreliable, and each local dollar has historically drawn about $2 in other funding. It is wary of charter-mandated set-asides but credits C's safeguards, which allow freezes or reductions during shortfalls. Its concerns: less General Fund flexibility, and structural deficits that could make the higher level hard to sustain.", q: "Although SPUR is cautious about charter-mandated General Fund set-asides because they reduce budget flexibility, Prop. C incorporates thoughtful fiscal controls", u: SPUR + "sf-prop-c-housing-trust-fund" },
       growsf: { p: "yes", s: "Raises the Housing Trust Fund from about $50.8M a year to $125M a year starting in FY 2028–29, with growth capped at 3% after that. GrowSF calls C the second half of a May 2026 deal in which nonprofits stopped fighting a cut to the inclusionary housing fee, which the Board has already passed.", q: "We think this is a good deal, and Prop C is how voters keep the City's end of it.", u: GROW + "measures/prop-c/" },
       lwv: { p: "yes", s: "Supports C as the kind of government funding for affordable housing the League backs: it grows the Housing Trust Fund toward $125M a year without raising taxes. Also cites expanded down-payment assistance and approves of the fund's end date.", q: "Proposition C is exactly the kind of government funding for affordable housing the League of Women Voters supports", u: LWVSF },
@@ -236,6 +247,7 @@ window.MEASURES = [
       { label: "Title & summary", url: "https://api.sf.gov/documents/52978/Title_and_Summary_-_Changes_to_Ballot_Measure_Process.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Argues San Francisco's long ballot produces bad policy, and that D contains essential fixes voters will have to ratify eventually, so they should do it now.", q: "Prop D contains many essential fixes that voters will need to ratify one way or another.", u: CHRON + "prop-d-san-francisco-ballot-22438203.php" },
       spur: { p: "yes", s: "SPUR says San Francisco's ballot-placement rules are looser than anywhere else in California, letting a mayor or a minority of supervisors skip normal public processes. It acknowledges higher signature thresholds would make it harder for grassroots groups to qualify measures, but notes they'd still be lower than in most California cities. Its concerns: D could favor well-funded interests and make dedicated tax measures harder to pass.", q: "On balance, SPUR believes the measure’s benefits outweigh its downsides and will lead to more effective policies and greater voter engagement.", u: SPUR + "sf-prop-d-ballot-measure-process" },
       growsf: { p: "yes", s: "Raises the initiative signature threshold from 2% to 8% of registered voters, ends the Mayor's unilateral power to place measures, and requires six supervisors instead of four. GrowSF argues San Francisco has the lowest signature threshold in the state and votes on too many measures.", q: "Vote yes on Prop D to shorten your ballot.", u: GROW + "measures/prop-d/" },
       lwv: { p: "no", s: "Opposes because quadrupling the signature requirement and removing the Mayor's and four Supervisors' routes to the ballot would leave only expensive signature campaigns or a six-vote Board majority. The League says this would shut out community groups and working-class voices.", q: "Proposition D locks regular people out of elections and gives power to whoever can buy their way onto the ballot.", u: LWVSF },
@@ -261,6 +273,7 @@ window.MEASURES = [
       { label: "Title & summary", url: "https://api.sf.gov/documents/53474/TS_ExtendingTheCityAdministratorsDutiesAndChangesToCityContractingv2.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Says political oversight of contracting and procurement has produced obvious failures, and the city has little to lose and much to gain by professionalizing how it does business.", q: "San Francisco has little to lose and much to gain by professionalizing the way it does business.", u: CHRON + "prop-e-san-francisco-22413304.php" },
       spur: { p: "yes", s: "SPUR says procurement is so fragmented that no official can ensure purchasing is efficient, consistent, and accountable, and that E implements changes SPUR recommended. It expects fewer duplicative reviews, shorter timelines, and easier access for businesses and nonprofits, with reasonable elected oversight kept. Its concerns: less ability for the Mayor and Board to set purchasing policy, and limits on the PUC's and MTA's independent purchasing.", q: "These changes would clarify accountability while maintaining reasonable oversight by elected officials.", u: SPUR + "sf-prop-e-city-administrator-duties" },
       growsf: { p: "yes", s: "Puts city purchasing rules under the City Administrator, whose rulebook the Board or Mayor could reject, and raises Board approval thresholds. GrowSF argues today's contracting rules are tangled and nobody owns them, and points to a faster playground-delivery process as proof that better rules get better results.", q: "Prop E puts one person in charge:", u: GROW + "measures/prop-e/" },
       lwv: { p: "no", s: "Opposes because E gives an appointed official broad new contracting and technology authority, raises contract thresholds, and doubles the term from 5 to 10 years with too few checks. Contrasts this with the League's 1995 support for shortening that term.", q: "Proposition E hands a lot more power to an unelected official, with little accountability to match.", u: LWVSF },
@@ -286,6 +299,7 @@ window.MEASURES = [
       { label: "Title & summary", url: "https://api.sf.gov/documents/53468/TS_ChangesToExecutiveBranchManagementv2.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Argues the charter carries too much organizational detail, which blurs responsibility and makes needed changes hard. F gives the mayor tools to manage the executive branch while keeping Board and public review.", q: "Prop F gives the mayor tools to manage the executive branch while preserving review by the Board of Supervisors and the public.", u: CHRON + "prop-f-mayor-san-francisco-22469130.php" },
       spur: { p: "yes", s: "SPUR says F adopts many of its recommendations for making the mayor the city's chief executive, including control over department heads. It thinks the reorganization power goes further than SPUR proposed, but notes the Board can reject changes and key oversight functions are exempt. Its concerns: concentrated authority could be misused by a poor mayor, and smaller commission roles may mean less public participation.", q: "Taken together, these changes would strengthen the mayor’s ability to serve as the city’s chief executive and voters’ ability to hold the mayor accountable for results.", u: SPUR + "sf-prop-f-executive-branch-management" },
       growsf: { p: "yes", s: "Lets the Mayor reorganize most departments, hire and fire several department heads directly, and remove most commissioners serving at the appointer's pleasure. GrowSF notes the Board can still block reorganizations, and acknowledges F is Mayor Lurie's measure and gives his office more power.", q: "The Board of Supervisors can still block any reorganization", u: GROW + "measures/prop-f/" },
       lwv: { p: "no", s: "Opposes because F gives the Mayor sweeping power to fire most department heads and commissioners, reduces commission roles, and brings back deputy mayors, which voters banned in 1991. Also objects to removing the Police Commission's power to remove the Chief.", q: "Proposition F hands the Mayor sweeping new power over our government and removes many checks and balances.", u: LWVSF },
@@ -311,6 +325,7 @@ window.MEASURES = [
       { label: "Title & summary", url: "https://api.sf.gov/documents/51998/Title__Summary_-_Allowing_Private_Vehicles_on_the_Great_Highway.pdf" },
     ],
     positions: {
+      chron: { p: "no", s: "Cites more than 1.7 million visits to Sunset Dunes and benefits to nearby businesses, and the Controller's estimate of $9.8M up front plus up to $1.9M a year to reopen the road. Says the \"compromise\" would remove park amenities; the board backed Prop K in 2024.", q: "we still believe that Sunset Dunes offers San Francisco the opportunity to build a transformative public space.", u: CHRON + "prop-g-sunset-dunes-highway-22443671.php" },
       spur: { p: "no", s: "SPUR says G would undo a successful city effort to protect neighborhoods from sea-level rise and coastal erosion, and would delay the Ocean Beach climate adaptation plan. It runs counter to SPUR's support for shared public spaces, walking, biking, and transit. Concerns include $350K–$700K a year for sand removal, more than $10M in one-time signal costs, loss of the oceanfront promenade, and more runoff pollution.", q: "Prop. G would undo a successful city effort to protect neighborhoods from the threats of rising sea levels and coastal erosion", u: SPUR + "sf-prop-g-cars-sunset-dunes" },
       growsf: { p: "no", s: "GrowSF says voters already settled this in 2022 and 2024, and that about 500,000 of Sunset Dunes' first-year sensor counts were new park visits. It also objects that G's fixed schedule could only be changed by another citywide vote.", q: "Vote no on Prop G. Let's all move on.", u: GROW + "measures/prop-g/" },
       lwv: { p: "neutral", s: "Neutral because the League's own positions point in different directions. It notes the park has drawn 1.7 million visits, and that G has no requirements for more bus service, less driving, climate impacts, or paying for reopening (estimated at up to $20M over five years).", q: "After discussion, our board of directors decided to be neutral on Proposition G.", u: LWVSF },
@@ -334,6 +349,7 @@ window.MEASURES = [
       { label: "Title & summary", url: "https://api.sf.gov/documents/52834/Title__Summary_-Parcel_Tax_to_Fund_Public_Transit_Operations_-_2.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Points to Muni's $307M annual shortfall and possible cuts of 19 bus lines. The Controller warns the cuts could discourage people from working in the city, worsen staffing shortages, and lower property values.", q: "Proposition H would help stem the bleeding.", u: CHRON + "prop-h-muni-san-francisco-22456325.php" },
       spur: { p: "yes", s: "SPUR acknowledges the tax is a new burden when living costs are high, but says its structure is fair and that the city's affordability and economy depend on a working Muni. Cuts would hit riders with disabilities, seniors, students, and low-wage workers hardest, and would hurt downtown recovery. Its concern: the city can't control how the tax is passed on to tenants outside rent control.", q: "High-quality public transit is not optional for San Francisco.", u: SPUR + "sf-prop-h-muni-parcel-tax" },
       growsf: { p: "yes", s: "A 15-year parcel tax raising about $177M a year (Controller estimate) for Muni operations. GrowSF calls it a fair price for dedicated Muni funding, criticizes the senior exemption as backwards given Prop 13 protections, and points to the sunset, efficiency review, and the Board's power to amend or repeal as safeguards.", q: "Funding it directly is the better deal, and the price is reasonable: most homeowners pay $129 per year", u: GROW + "measures/prop-h/" },
       lwv: { p: "yes", s: "Endorses H because Muni faces possible cuts of up to 20 routes and reduced late-night service. Calls the $129 homeowner tax predictable and notes that older homeowners, nonprofits, and SROs pay less. Would have preferred that rent-controlled landlords absorb the full tax.", q: "Muni’s overwhelming financial need makes this proposition essential.", u: LWVSF },
@@ -358,6 +374,7 @@ window.MEASURES = [
       { label: "Title & summary", url: "https://api.sf.gov/documents/55610/Title_and_Summary_Changes_to_Real_Property_Transfer_Tax_third_submission.pdf" },
     ],
     positions: {
+      chron: { p: "no", s: "Says everyone wants affordable housing, but argues I's provisions would make the housing crisis worse.", q: "Prop I is a cocktail of poison pills that will actually make San Francisco’s housing crisis worse.", u: CHRON + "prop-i-housing-san-francisco-22459341.php" },
       spur: { p: "no", s: "SPUR strongly supports more affordable housing money and likes the exemptions for qualified projects. But it says I would permanently move a large share of General Fund revenue (about $114M a year) while the city faces a structural deficit of more than $1 billion, and would take away the Board's ability to adjust the transfer tax. Commercial projects would still face high transfer taxes.", q: "Weighing all these factors, we believe Prop. I could do more harm than good.", u: SPUR + "sf-prop-i-transfer-tax-set-aside" },
       growsf: { p: "no", s: "GrowSF says I moves about $120M a year out of the General Fund during a projected deficit, and locks in today's transfer tax rates because lowering them would take a public vote.", q: "Vote no on Prop I.", u: GROW + "measures/prop-i/" },
       lwv: { p: "yes", s: "Supports I because it sends half of existing transfer tax revenue on $10M-plus sales to affordable housing and tenant protections without raising taxes. Notes that most San Franciscans would never pay this tax.", q: "San Francisco needs a dedicated, reliable source of money for affordable housing, and Proposition I delivers one without increasing taxes.", u: LWVSF },
@@ -383,6 +400,7 @@ window.MEASURES = [
       { label: "Legislative digest", url: "https://api.sf.gov/documents/61294/Nov2026_LD_RealPropertyTransferTaxForeclosureExemption.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Supports closing the transfer tax loophole, on the expectation that the city treats the revenue as temporary and pursues more targeted ways to put distressed properties back into use.", q: "The editorial board supports the measure with the expectation that the city treat the revenue stream it will generate as temporary", u: CHRON + "prop-j-san-francisco-ballot-22486374.php" },
       spur: { p: "yes", s: "SPUR says the city needs revenue that doesn't burden working families and small businesses, and ending the foreclosure exemption for commercial and large multi-family properties does that without harming homeowners or small landlords. Its concerns: lenders may pass the cost on to buyers, which could block purchases of distressed properties and slow the office market's recovery.", q: "Closing the foreclosure loophole for commercial and multi-family residential properties offers a way to increase revenue without harming individual homeowners or small landlords.", u: SPUR + "sf-prop-j-transfer-tax-foreclosures" },
       growsf: { p: "yes", s: "GrowSF says the exemption was written for banks stuck holding buildings, not for investors who buy loans to take over large properties tax-free. Estimates the added cost to lenders at about 0.14 points on a $100M loan, and says the deal only works if Prop I fails.", q: "The tax they skip is the one every ordinary buyer pays,", u: GROW + "measures/prop-j/" },
       lwv: { p: "yes", s: "Supports ending the foreclosure exemption for large properties (commercial, large apartment buildings, hotels) while keeping it for homes and small buildings. Cites a Controller estimate of $100M–$150M a year for five years.", q: "Proposition J ends a tax break that has let big real estate lenders off the hook for years.", u: LWVSF },
@@ -405,6 +423,7 @@ window.MEASURES = [
       { label: "Board resolution", url: "https://api.sf.gov/documents/61300/Nov2026_Resolution_RegionalTransitMeasure.pdf" },
     ],
     positions: {
+      chron: { p: "yes", s: "Says the Bay Area doesn't work without reliable transit. Agrees with critics that a sales tax is regressive and BART needs more accountability, but calls RTM a necessary investment while longer-term reforms are worked out.", q: "The Bay Area does not work without consistent, reliable, well-functioning public transit.", u: CHRON + "regional-transit-measure-bay-area-22424231.php" },
       spur: { p: "yes", s: "SPUR says a collapse in transit service would hurt people who depend on it for jobs, medical care, and groceries, and that reliable transit funding outweighs concerns about a regressive sales tax. It estimates a flat $82 a year for people at or below 80% of median income, far less than the $3,280 in added driving costs if service is cut. SPUR is a sponsor.", q: "SPUR believes maintaining reliable transit funding outweighs concerns about the regressive nature of a sales tax.", u: SPUR + "ba-prop-rtm-regional-transit-sales-tax" },
       growsf: { p: "yes", s: "GrowSF says BART has no backup funding and faces a $378M deficit; if RTM fails, train hours would be cut 63% starting January 2027. It concedes the tax falls hardest on lower-income residents but sees no better alternative.", q: "Vote yes on the Regional Transit Measure.", u: GROW + "measures/prop-rtm/" },
       chamber: { p: "yes", s: "Supports the 14-year sales tax, projected at about $980M, for Muni, BART, and Caltrain operations. Says Bay Area transit brings workers and customers to San Francisco businesses.", q: "Bay Area transit is an essential service, bringing workers and customers to businesses in San Francisco", u: CHAMBER },
@@ -424,6 +443,7 @@ window.MEASURES = [
     what: "Authorizes $10 billion in general obligation bonds for affordable and supportive housing, plus $1.25 billion in mortgage revenue bonds for a veterans and military-family homeownership program.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-1-affordable-housing-bond" },
     positions: {
+      chron: { p: "yes", s: "Calls Prop 1 unwieldy, the product of years of legislative sausage-making, but says the need for affordable housing is too urgent to wait and the bond can take advantage of new state streamlining laws.", q: "the need for more affordable housing is too desperate to wait", u: CHRON + "prop1-california-housing-vote-22442444.php" },
       spur: { p: "yes", s: "SPUR says the housing crisis comes from too little supply and too little subsidy, and thousands of approved affordable projects are stalled for lack of financing. The bond money pairs with federal tax credits through proven state programs. Its concern: more state debt, with debt service equal to about 0.26% of the General Fund.", q: "This measure is critical to expanding affordable housing opportunities for lower-income residents across California through new construction, preservation, and homebuyer assistance.", u: SPUR + "ca-prop-1-affordable-housing-bond" },
       lwv: { p: "yes", s: "The state League supports the bond, noting that earlier affordable-housing bond money is exhausted while high housing costs keep driving homelessness and overcrowding.", q: "Authorizes $10 billion in bonds for affordable housing construction, preservation, and homeownership programs", u: LWVC },
       sda: { p: "yes", s: "Acknowledges bonds are debt, but calls them one of the best ways to build affordable housing in the current climate.", q: "it’s one of the best ways for us to actually build affordable housing in the current political climate.", u: SDA },
@@ -439,6 +459,7 @@ window.MEASURES = [
     what: "Raises the cap on the state's rainy day reserves from 10% to 20%, changes how deposits and withdrawals work, exempts deposits from the state spending limit, and expands required repayment of certain debts.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-2-rainy-day-fund" },
     positions: {
+      chron: { p: "yes", s: "Says that if used fully, Prop 2 could cover about 50% of funding shortfalls over the next 50 years. Urges voters to pass it and hold lawmakers to their promise of more responsible budgeting.", q: "If used to the fullest extent, Prop 2 could improve California’s budget stability", u: CHRON + "prop-2-money-california-22468892.php" },
       spur: { p: "yes", s: "SPUR says California's volatile tax revenue needs adequate reserves to avoid deep cuts in downturns, which also protects cities and counties. Its concern: even the higher cap would cover only about half of the revenue lost in a typical downturn.", q: "Given the volatile nature of California’s tax revenue structure, adequate reserve requirements are necessary to avoid severe service reductions during economic downturns.", u: SPUR + "ca-prop-2-rainy-day-fund" },
       lwv: { p: "yes", s: "Supports a larger rainy day fund and requiring more savings when capital gains revenue is unusually high, to protect schools and services and reduce emergency borrowing.", q: "Allows California to save more during strong economic years by building a larger rainy-day fund", u: LWVC },
       green: { p: "no", s: "Opposes putting more state tax money into reserves instead of priorities like public transit.", q: "put more state tax money in \"rainy day fund\" instead of priorities like public transit", u: GREEN },
@@ -453,6 +474,7 @@ window.MEASURES = [
     what: "Makes permanent the state's higher income tax rates on the top 2% of earners, which fund education, health care, and other programs.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-3-high-earner-income-tax-extension" },
     positions: {
+      chron: { p: "yes", s: "Argues that with federal cuts, California can't afford to reduce ongoing school and health care funding, while urging pressure for a fairer, more sustainable tax system.", q: "California can’t afford to further reduce ongoing funds for schools and healthcare programs.", u: CHRON + "california-taxes-proposition-3-22435509.php" },
       spur: { p: "yes", s: "SPUR says the tax has raised more than $119 billion for education and health care, with no evidence it drives high earners away, and would help backfill Medi-Cal as federal cuts land. Trade-offs: permanence reduces future flexibility, and reliance on capital gains keeps revenue volatile.", q: "But given the tax's proven track record and the increasingly dramatic funding gaps the tax would help fill in the wake of H.R. 1, SPUR supports making it permanent.", u: SPUR + "ca-prop-3-high-earner-income-tax-extension" },
       lwv: { p: "yes", s: "Keeps today's rates on the top 2% after 2030, avoiding an estimated $5–15 billion yearly revenue loss without raising anyone's rate.", q: "Prop 3 does not raise anyone's tax rate today.", u: LWVC },
       sda: { p: "yes", s: "Supports making the tax permanent to fund education and health care, and argues the feared exodus of the wealthy never happens.", q: "The exodus of wealthy individuals that is threatened every time one of these taxes goes on the ballot never really materializes", u: SDA },
@@ -468,6 +490,7 @@ window.MEASURES = [
     what: "Repeals the state ban on public financing of campaigns, so state and local governments can create programs that give candidates public funds under spending limits.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-4-campaign-financing" },
     positions: {
+      chron: { p: "no", s: "Says research shows public financing works only if it's well designed, and Prop 4 has a fatal flaw that could waste limited taxpayer money during widespread deficits.", q: "Prop 4 has a fatal flaw that opens the door to limited taxpayer funds being wasted on efforts that don’t meaningfully move the needle", u: CHRON + "endorsement-prop-4-public-financing-22426379.php" },
       spur: { p: "yes", s: "SPUR says public financing brings in small donors, lowers barriers for first-time candidates, and increases candidate diversity. Because governments must opt in, each can decide for itself. Concerns: mixed evidence on reducing big-money influence, no limits on independent expenditures, and added program costs.", q: "SPUR supports clearing this state-level barrier and letting cities, counties, and the state decide for themselves.", u: SPUR + "ca-prop-4-campaign-financing" },
       lwv: { p: "yes", s: "Says public financing can amplify small donors, broaden who can run, and reduce dependence on wealthy donors. The state League is an official proponent.", q: "Public financing can amplify small donors, broaden who can run, and reduce dependence on wealthy donors", u: LWVC },
       sda: { p: "yes", s: "Says public funding lets people who aren't wealthy run for office, and a statewide ban is at odds with an accessible election process.", q: "Having a statewide prohibition on this seems antithetical to a fully accessible election process", u: SDA },
@@ -483,6 +506,7 @@ window.MEASURES = [
     what: "Removes the replacement-candidate question from recall elections. A vacancy created by a recall would be filled through existing succession rules.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-5-recall-process-reform" },
     positions: {
+      chron: { p: "no", s: "Agrees the recall process could be improved, but says the problem isn't dire enough to accept Prop 5's glaring flaw.", q: "the problem isn’t so dire that voters need to accept Prop 5’s glaring flaw.", u: CHRON + "prop-5-recall-california-22458510.php" },
       spur: { p: "yes", s: "SPUR says this keeps a replacement from taking statewide office with a small plurality and removes the incentive to use recalls as a partisan tool. Concerns: legislative recalls would need an extra election, and an unelected appointee could serve as governor during a lame-duck period.", q: "Prop. 5 would help California avoid scenarios in which a successor can take statewide office with only a small plurality of votes.", u: SPUR + "ca-prop-5-recall-process-reform" },
       lwv: { p: "yes", s: "Ends a system that can hand office to a replacement backed by a small plurality; vacancies would be filled under existing rules. The state League is an official proponent.", q: "Prop 5 ends a system that can hand office to a replacement supported by only a small plurality.", u: LWVC },
       green: { p: "no", s: "Opposes weakening recall elections instead of reforming them with ranked-choice voting.", q: "neuter state recall elections instead of reforming them using RCV", u: GREEN },
@@ -497,6 +521,7 @@ window.MEASURES = [
     what: "Authorizes $25 billion in state revenue bonds for second-mortgage loans to buyers of newly built homes, to increase middle-class homeownership.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-37-homeowner-loans" },
     positions: {
+      chron: { p: "yes", s: "Says 37's scope is too limited to transform housing, but given how dire the crisis is, any help with middle-class homeownership is better than none.", q: "given how dire our housing crisis is, any positive impact is better than none at all.", u: CHRON + "prop-37-housing-home-loans-22422795.php" },
       spur: { p: "yes", s: "SPUR supports new homeownership financing tools, and these revenue bonds don't touch the General Fund. The focus on new construction adds for-sale supply. Concerns: the program isn't limited to first-time buyers and isn't aimed at low- or moderate-income households (eligibility goes up to 200% of area median income).", q: "SPUR supports the creation of new tools and financing to promote homeownership, and these revenue bonds would have no impact on the state’s General Fund.", u: SPUR + "ca-prop-37-homeowner-loans" },
       lwv: { p: "no", s: "Opposes because the program gives no priority to first-time or first-generation buyers, could help households earning more than $300,000 in some areas, and may widen racial and economic gaps.", q: "it gives no priority to first-time or first-generation buyers", u: LWVC },
       green: { p: "no", s: "Opposes the $25 billion bond for subsidized mortgages on new housing.", q: "$25 billion bond for subsidized mortgages for new housing", u: GREEN },
@@ -511,6 +536,7 @@ window.MEASURES = [
     what: "Authorizes $8.4 billion in state bonds for immunology research.",
     whatSource: { label: "SF Green Party / LWV", url: LWVC },
     positions: {
+      chron: { p: "no", s: "Calls Prop 38 one of the most noxious measures in years: it would give billions to an institute co-founded by Michael Milken, the \"junk bond king\" pardoned by Trump in 2020.", q: "it’s one of the most noxious deposits on California’s political dung heap in years.", u: CHRON + "prop-38-money-california-22453646.php" },
       lwv: { p: "no", s: "Says bonds are a poor way to fund research: the debt would cost $500–600 million a year from the General Fund, and royalties may do little to offset it.", q: "Medical research saves lives, but bonds are a poor way to fund it.", u: LWVC },
       sda: { p: "yes", s: "Says the bond replaces research funding cut by the federal government and supports work toward treatments and cures.", q: "This Proposition replaces critical funding that was cruelly cut by the Trump Administration", u: SDA },
       green: { p: "no", s: "Opposes the $8.4 billion bond for immunology research.", q: "$8.4 billion bond for immunology research", u: GREEN },
@@ -525,6 +551,7 @@ window.MEASURES = [
     what: "Requires a government-issued ID to vote in person, or the last four digits of a government ID number on mail ballots.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-39-california-voter-id" },
     positions: {
+      chron: { p: "no", s: "Says California could do more to address election-integrity concerns, but Prop 39 would turn elections into endless litigation.", q: "Prop 39 would turn our elections into a never-ending lawsuit.", u: CHRON + "endorsement-proposition-39-voter-fraud-california-22463918.php" },
       spur: { p: "no", s: "SPUR says California already has safeguards, including perjury-backed registration and signature checks, and there's no evidence of widespread fraud. Strict ID rules create barriers for eligible voters, override SB 1174, and cost a lot to implement. SPUR says it could find no benefits.", q: "California already has safeguards to protect election integrity.", u: SPUR + "ca-prop-39-california-voter-id" },
       lwv: { p: "no", s: "Says California already verifies voter identity, and the measure would add barriers and expose sensitive data. The state League is an official opponent.", q: "Prop 39 is a Trump-inspired partisan power grab built on false claims about California elections.", u: LWVC },
       sda: { p: "no", s: "Argues voter ID requirements suppress participation, especially among older adults, women, low-income people, and LGBTQ+ people whose IDs may not match their names.", q: "Voter ID laws are for one reason and one reason only: to suppress our access to democratic participation.", u: SDA },
@@ -540,6 +567,7 @@ window.MEASURES = [
     what: "Enacts a one-time 5% state tax on the net worth of individuals and trusts worth more than $1 billion, mainly to fund health care.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-40-billionaire-tax" },
     positions: {
+      chron: { p: "no", s: "Argues no one knows the full effect of the billionaire tax; even co-author Emmanuel Saez calls it an \"experiment.\" If it backfires, the state loses top taxpayers with no backup plan.", q: "California isn’t a lab rat. Voters shouldn’t allow our state to be treated like one.", u: CHRON + "prop-40-tax-billionaire-california-22477038.php" },
       spur: { p: "neutral", s: "SPUR's board didn't reach consensus. It notes the one-time money would meet urgent health care and food needs, and the tax is progressive. Its concerns: one-time money can't sustain ongoing programs, the state needs a permanent fix, and billionaires leaving could cost hundreds of millions in long-term revenue.", q: "The SPUR Board of Directors did not reach consensus on Prop. 40.", u: SPUR + "ca-prop-40-billionaire-tax" },
       lwv: { p: "neutral", s: "Could raise tens of billions and advance League goals, but one-time earmarked money isn't a stable solution, and League positions point both ways.", q: "Strong League positions point both ways, so the LWVC is neutral.", u: LWVC },
       chamber: { p: "no", s: "Opposes because of possible ripple effects on state revenue and innovation. Says a one-time tax doesn't solve long-term health care funding and raises worries about more one-time taxes.", q: "due to the negative ripple effects this measure could have on state tax revenue and innovation", u: CHAMBER },
@@ -556,6 +584,7 @@ window.MEASURES = [
     what: "Bars new state taxes from exempting their revenue from the state spending limit, and requires audits of programs funded by new state special taxes.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-41-audits-special-taxes" },
     positions: {
+      chron: { p: "no", s: "Says the spending-limit and audit rules are really a cheap ruse to nullify Prop 40.", q: "really it’s a cheap ruse to nullify Prop 40, the billionaire wealth tax.", u: CHRON + "endorsement-california-prop-41-taxes-22445889.php" },
       spur: { p: "no", s: "SPUR says transparency is a worthy goal, but the Legislative Analyst and State Auditor can already review programs. It argues 41 was placed on the ballot mainly to defeat Prop 40, and would squeeze revenue for housing, transportation, and services already facing cuts.", q: "Prop. 41 was primarily placed on the ballot to defeat Prop. 40, a measure to tax billionaires.", u: SPUR + "ca-prop-41-audits-special-taxes" },
       lwv: { p: "no", s: "Counting new taxes toward the spending cap could keep the state from raising or spending money voters approve.", q: "It could prevent the state from raising or spending all the money voters authorize for public priorities", u: LWVC },
       chamber: { p: "yes", s: "Says constitutional spending limits should apply to every tax, and 41 closes a loophole that lets new taxes avoid the cap, while voters can still change the limit directly.", q: "constitutional spending limits should apply consistently", u: CHAMBER },
@@ -572,6 +601,7 @@ window.MEASURES = [
     what: "Prohibits new state and local taxes on owning financial assets or other personal property, and any tax that applies retroactively.",
     whatSource: { label: "SPUR", url: SPUR + "ca-prop-42-personal-property-taxes" },
     positions: {
+      chron: { p: "no", s: "Calls the retirement-account warnings misleading; it's another poison pill aimed at Prop 40. You don't have to support the wealth tax to see the collateral damage 42 could cause.", q: "You don’t have to support the billionaire wealth tax to realize the potential collateral damage Prop 42 could cause.", u: CHRON + "california-proposition-42-taxes-22449389.php" },
       spur: { p: "no", s: "SPUR says 42 was placed on the ballot mainly to defeat Prop 40, and would limit state and local governments' ability to raise revenue now and later. The one benefit it lists: banning retroactive taxes gives taxpayers more predictability.", q: "Prop. 42 was primarily placed on the ballot to defeat Prop. 40, a competing tax measure on billionaires.", u: SPUR + "ca-prop-42-personal-property-taxes" },
       lwv: { p: "no", s: "Opposes permanently ruling out revenue options California may need in different economic conditions.", q: "The League opposes locking away future revenue options that California may need under different economic or fiscal conditions.", u: LWVC },
       chamber: { p: "yes", s: "Says people and businesses need predictable tax rules: no new taxes on owning assets, and no retroactive changes to how past activity is taxed.", q: "The state should not impose new taxes on asset ownership or retroactively change the tax treatment of past activity.", u: CHAMBER },
@@ -588,6 +618,7 @@ window.MEASURES = [
     what: "Requires a two-thirds vote to impose, extend, or raise special taxes, including citizen-initiated local special taxes that can now pass by simple majority. Bans new local property taxes based on value.",
     whatSource: { label: "SPUR & SF Chamber", url: SPUR + "ca-prop-43-local-tax-threshold" },
     positions: {
+      chron: { p: "neutral", s: "Won't support 43 because it further cements California's broken tax system, but won't oppose it either. If it passes, it might force the state to build a coherent tax system.", q: "We don’t support Prop 43 because it further cements California’s broken system. But ultimately, we won’t oppose it, either.", u: CHRON + "prop-43-ballot-california-22477053.php" },
       spur: { p: "no", s: "SPUR has long called for Prop 13 reform and opposes new limits on raising revenue. It says 43 would extend Prop 13's legacy with a two-thirds threshold, undermining majority rule and one of the few remaining ways to fund services, with the effects falling hardest on lower-income residents.", q: "It would undermine both the democratic principle of majority rule and one of the few remaining pathways for funding important services.", u: SPUR + "ca-prop-43-local-tax-threshold" },
       lwv: { p: "no", s: "A two-thirds rule would let a minority of voters block tax measures most voters support.", q: "That would let a minority of voters block tax measures supported by most voters", u: LWVC },
       chamber: { p: "yes", s: "Argues the California Supreme Court's Upland ruling created an uneven system that runs against the constitution's intent for voter approval of special taxes.", q: "the California Supreme Court's Upland ruling has created an unevenly applied system", u: CHAMBER },
@@ -604,6 +635,7 @@ window.MEASURES = [
     what: "Requires safety-net health clinics to spend at least 90% of annual revenue on health care services.",
     whatSource: { label: "LWV", url: LWVC },
     positions: {
+      chron: { p: "no", s: "Says 44 looks appealing but creates a complex administrative and legal regime that would drain nonprofit clinics' staff time and resources away from patient care.", q: "it creates a complex administrative and legal regime that will drain limited staff time and resources from nonprofit clinics", u: CHRON + "prop-44-california-health-clinic-22433656.php" },
       lwv: { p: "no", s: "Says the rigid rule could force clinics to cut services or close, shifting patients to other providers.", q: "This rigid rule could force clinics to cut services or close", u: LWVC },
       sda: { p: "no", s: "Says the 90% rule assumes nonprofits can run without overhead. SDA spends well over 10% outside direct services, so a rule like this would end it.", q: "A proposition like this targeted towards us would mean the end of SDA.", u: SDA },
       green: { p: "yes", s: "Supports the SEIU-UHW measure requiring clinics to spend more on services and less on executive pay.", q: "SEIU-UHW measure to require more of health clinic revenues to go to services instead of executive pay", u: GREEN },
@@ -618,6 +650,7 @@ window.MEASURES = [
     what: "Speeds up CEQA environmental review for eight categories of housing and for some transportation, energy, health, safety, education, and water projects designated as essential. Caps reviews at one year and requires courts to rule on challenges within 270 days.",
     whatSource: { label: "SPUR & SF Chamber", url: SPUR + "ca-prop-45-environmental-review-ceqa" },
     positions: {
+      chron: { p: "no", s: "Agrees CEQA needs fundamental reform and that 45 contains some solutions, but says it would lock in a regime that makes it easier to build environmentally ruinous projects.", q: "the measure as written would lock California into a regulatory regime that makes it easier to build the same environmentally ruinous projects", u: CHRON + "prop-45-ceqa-california-22468905.php" },
       spur: { p: "neutral", s: "SPUR's board couldn't reach a supermajority. SPUR agrees CEQA causes excessive risk, cost, and delay, and says 45 could speed infill housing and clean energy. But because it applies regardless of location or scale, it could also enable sprawl and polluting facilities, and fixing it later would take a two-thirds legislative vote.", q: "The SPUR Board of Directors could not reach a supermajority consensus position on this measure.", u: SPUR + "ca-prop-45-environmental-review-ceqa" },
       lwv: { p: "no", s: "Opposes speeding up projects by weakening environmental review, public input, and protections for affected communities.", q: "The League opposes speeding projects by weakening environmental review, public input, and protections for affected communities.", u: LWVC },
       chamber: { p: "yes", s: "Calls 45 a targeted fix for barriers that keep essential projects from being built, while keeping environmental review.", q: "as a targeted solution to solving some of the key barriers preventing essential projects and infrastructure from construction", u: CHAMBER },
@@ -640,6 +673,7 @@ window.RACES = [
     id: "D2", title: "Supervisor, District 2", seats: 1, rcv: true,
     candidates: ["Nicholas Berg", "Guy McCoy", "Monthanus Ratanapakdee", "Stephen Sherrill"],
     positions: {
+      chron: { picks: ["Stephen Sherrill"], s: "Credits Sherrill with backing the Lurie administration's charter reforms and pushing for accountability and transparency in spending, from nonprofit contracts to department budgets.", q: "There’s no reason for District 2 voters to change course.", u: CHRON + "stephen-sherrill-supervisor-san-francisco-22477061.php" },
       growsf: { picks: ["Stephen Sherrill"], s: "Appointed supervisor with a record on public safety, small business, and responsive government. GrowSF cites his 69% vote share in June.", q: "Sherrill brings real policy experience and a laser focus on responsive, effective government.", u: GROW + "#supervisor-district-2" },
       gop: { picks: ["Nicholas Berg"], s: "Says Berg has spent his career managing budgets, buildings, and teams in SF neighborhoods. Berg is the SF GOP chair.", q: "Nicholas Berg has spent his career actually running things", u: GOP },
       sfbg: { picks: [], against: ["Stephen Sherrill"], s: "No endorsement. Calls Sherrill a reliable vote for the Mayor who is wrong on almost every issue.", q: "He’s a Lurie call-up vote, wrong on almost every issue.", u: SFBG },
@@ -652,6 +686,7 @@ window.RACES = [
     id: "D4", title: "Supervisor, District 4", seats: 1, rcv: true,
     candidates: ["Albert Chow", "Jeremy Julian Greco", "Alan Wong"],
     positions: {
+      chron: { picks: ["Alan Wong"], s: "The board endorsed Wong in the special election. Calls his November opponents well-intentioned political novices without the government experience to effect change.", q: "Wong’s opponents in November are two political novices with good intentions but without the government experience needed to effect change.", u: CHRON + "alan-wong-sunset-supervisor-22465701.php" },
       growsf: { picks: ["Alan Wong"], s: "Appointed supervisor who won the June special election. GrowSF cites his vote for the Family Zoning Plan, police funding work, and constituent services.", q: "District 4 asked for a supervisor who listens, and in less than a year Wong has voted their priorities", u: GROW + "#supervisor-district-4" },
       gop: { picks: ["Alan Wong"], s: "Recommends Wong (and Dorsey in D6) as best positioned to stand up for safe streets, working government, and residents' everyday concerns.", q: "we recommend Alan Wong and Matt Dorsey as the candidates best positioned to stand up for safe streets", u: GOP },
       green: { picks: ["Jeremy Julian Greco"], s: "Endorsed; no reasoning given.", u: GREEN },
@@ -665,6 +700,7 @@ window.RACES = [
     id: "D6", title: "Supervisor, District 6", seats: 1, rcv: true,
     candidates: ["Alex Behrend", "Matt Dorsey"],
     positions: {
+      chron: { picks: ["Matt Dorsey"], s: "Says the city needs supervisors who take its problems seriously and work with colleagues who see things differently, and that Dorsey has shown he can do both despite his X persona.", q: "His X persona notwithstanding, Dorsey has shown he can do both on the board.", u: CHRON + "matt-dorsey-alex-behrend-san-francisco-22477293.php" },
       growsf: { picks: ["Matt Dorsey"], s: "Credits the incumbent with recovery-first drug policy, police staffing, speed cameras, and housing support.", q: "Supervisor Dorsey has done more to redirect San Francisco's drug policy toward treatment and recovery than any of his colleagues.", u: GROW + "#supervisor-district-6" },
       gop: { picks: ["Matt Dorsey"], s: "Recommends Dorsey (and Wong in D4) as best positioned to stand up for safe streets and working government.", q: "we recommend Alan Wong and Matt Dorsey as the candidates best positioned to stand up for safe streets", u: GOP },
       sfbg: { picks: [], against: ["Matt Dorsey"], s: "No endorsement. Calls Dorsey one of the Board's most conservative, pro-police members, and objects to his legislation weakening the city's housing-first policy.", q: "he has pushed hard, and won, legislation that undermines the city’s longtime “housing first” policy", u: SFBG },
@@ -678,6 +714,7 @@ window.RACES = [
     note: "Manny Yekutiel remains on the ballot but dropped out on Oct 1, per GrowSF.",
     candidates: ["Gary McCoy", "Michael T. Nguyen", "Darshini Patel", "Emanuel \"Manny\" Yekutiel"],
     positions: {
+      chron: { picks: ["Gary McCoy"], s: "Doesn't agree with all of McCoy's positions, but says his years in government and fluency in housing and behavioral health policy make him the best prepared.", q: "his years in government and his fluency with housing and behavioral health policy give him the broadest preparation for the job.", u: CHRON + "endorsement-san-francisco-district-8-22480586.php" },
       growsf: { picks: ["Darshini Patel", "Gary McCoy"], s: "After Yekutiel dropped out, GrowSF ranks Patel first and calls McCoy a reasonable alternative after his Oct 14 public-safety platform. Says Nguyen is the least aligned.", q: "We recommend voting for Darshini Patel as your #1 choice for Supervisor, District 8.", u: GROW + "#supervisor-district-8" },
       sfbg: { picks: ["Michael T. Nguyen", "Gary McCoy"], s: "Calls Nguyen the only progressive in the race and the only candidate who makes social housing a priority. Says it can live with McCoy, a centrist and the SF YIMBY pick.", q: "We prefer Nguyen. We can live with McCoy.", u: SFBG },
       green: { picks: ["Michael T. Nguyen"], s: "Endorsed; no reasoning given.", u: GREEN },
@@ -690,6 +727,7 @@ window.RACES = [
     id: "D10", title: "Supervisor, District 10", seats: 1, rcv: true,
     candidates: ["Pearci \"PJ\" Bastiany III", "Dionjay (DJ) Brookter", "Deandra Bryant", "Theo Ellington", "J.R. Eppler", "Ellsworth \"Ell\" M. Jennison, Jr.", "Mike Trouble Lin", "Jamo Muhammad", "Jessica Pessecow", "Shawn M. Richard"],
     positions: {
+      chron: { picks: ["Theo Ellington"], s: "Says D10 needs a supervisor who presses for housing and economic opportunity while protecting residents who have borne the costs of bad city decisions. Cites Ellington's district roots and cross-coalition skills.", q: "Ellington’s roots in the district and his experience and ability to work across economic, social and political lines make him the strongest choice.", u: CHRON + "district-10-supervisor-san-francisco-22487638.php" },
       growsf: { picks: ["Theo Ellington"], against: ["J.R. Eppler", "Dionjay (DJ) Brookter"], s: "Praises Ellington's housing pipeline plan, public safety focus, and Shipyard cleanup commitments. Criticizes Eppler's record on appeals and Brookter's positions on fentanyl dealers and housing.", q: "We recommend voting for Theo Ellington for Supervisor, District 10.", u: GROW + "#supervisor-district-10" },
       sfbg: { picks: ["Dionjay (DJ) Brookter", "J.R. Eppler"], against: ["Theo Ellington"], s: "Calls outgoing Supervisor Walton's record excellent and Ellington the Big Tech candidate. Endorses Brookter and Eppler as the progressive options, in either order.", q: "Pick an order; both are great choices.", u: SFBG },
       green: { picks: ["Pearci \"PJ\" Bastiany III"], s: "Endorsed; no reasoning given.", u: GREEN },
@@ -714,6 +752,7 @@ window.RACES = [
     id: "CCSF", title: "Community College Board", seats: 3, rcv: false,
     candidates: ["Elijah Ball", "Rome Moses Jones", "Monroe Lace", "Leah LaCroix", "Jeremy Lee", "Bunny McFadden", "Erwin Tam", "Lisa Wynn"],
     positions: {
+      chron: { picks: ["Elijah Ball", "Monroe Lace", "Erwin Tam"], s: "Says City College has a modest surplus for 2026–27 but faces a projected $24M structural deficit in 2029–30, and that voters are lucky to have three impressive candidates for the challenge.", q: "San Francisco voters are lucky to have three incredibly impressive candidates ready for this challenge.", u: CHRON + "city-college-san-francisco-board-22484063.php" },
       growsf: { picks: ["Elijah Ball", "Monroe Lace", "Erwin Tam"], s: "Says City College regained accreditation in 2025 but still has a structural deficit. Backs Ball for facilities and five-year planning, Lace for career-technical programs, and Tam for financial analysis.", q: "We recommend voting for Elijah Ball, Monroe Lace, and Erwin Tam for Community College Board.", u: GROW + "#community-college-board" },
       sfbg: { picks: ["Leah LaCroix", "Jeremy Lee", "Bunny McFadden"], s: "Backs the progressive, teachers'-union slate to restore credibility to City College after years of accreditation crisis.", q: "A progressive slate backed by the teachers’ union is running to restore some credibility to the critical institution.", u: SFBG },
       green: { picks: ["Leah LaCroix", "Jeremy Lee"], s: "Endorsed; no reasoning given.", u: GREEN },
