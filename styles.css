@@ -115,6 +115,44 @@ h3 { font-size: 18px; }
   text-decoration: none; box-shadow: var(--shadow); transition: border-color .12s, transform .12s;
 }
 .item-row:hover { border-color: var(--ink-3); }
+.item-row[data-href] { cursor: pointer; grid-template-columns: 64px 1fr auto var(--choice-w); }
+:root { --choice-w: 160px; }
+.item-title { display: block; text-decoration: none; color: inherit; }
+.item-title:hover { text-decoration: underline; }
+/* "My choices" column at the far right of each row, labeled in the sticky section header */
+.item-vote { cursor: default; align-self: stretch; display: flex; align-items: center; justify-content: center; border-left: 1px solid var(--rule); padding-left: 16px; }
+.choice-label { display: none; }
+.head-right { display: flex; align-items: flex-end; gap: 16px; padding-right: 17px; } /* 17px = row padding + border */
+.choice-head { width: var(--choice-w); padding-left: 17px; text-align: center; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); }
+.seg.inline button { padding: 6px 12px; font-size: 13px; min-width: 46px; }
+
+/* Inline candidate picker on race rows */
+.pick-menu { position: relative; }
+.pick-menu > summary {
+  list-style: none; cursor: pointer; border: 1px solid var(--rule-2); border-radius: 8px; background: var(--paper);
+  padding: 6px 12px; font-size: 13px; font-weight: 600; white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis;
+}
+.pick-menu > summary::-webkit-details-marker { display: none; }
+.pick-menu > summary:hover { border-color: var(--ink-3); }
+.pick-menu > summary.has { background: var(--pick); border-color: var(--pick); color: #fff; }
+.pick-list {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 15; width: 300px; max-height: 360px; overflow: auto;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.15); padding: 6px;
+}
+.pick-hint { font-size: 12px; color: var(--ink-3); padding: 4px 8px 6px; }
+.pick-list button {
+  display: grid; grid-template-columns: 22px 1fr auto; gap: 8px; align-items: center; width: 100%; text-align: left;
+  border: 0; background: transparent; border-radius: 6px; padding: 7px 8px; cursor: pointer; font-size: 14px;
+}
+.pick-list button:hover { background: var(--bg); }
+.pick-list button.on { background: var(--pick-bg); }
+.pick-list .mark {
+  width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--rule-2); display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+}
+.pick-list button.on .mark { background: var(--pick); border-color: var(--pick); color: #fff; }
+.pick-list .n { font-size: 12px; color: var(--ink-3); }
+.pick-list .pick-clear { display: block; text-align: center; color: var(--accent); font-weight: 600; font-size: 13px; margin-top: 4px; border-top: 1px solid var(--rule); border-radius: 0; }
 .item-badge {
   font-family: var(--serif); font-weight: 700; font-size: 26px; width: 56px; height: 56px; border-radius: 10px;
   display: grid; place-items: center; background: var(--bg); border: 1px solid var(--rule);
@@ -134,7 +172,7 @@ h3 { font-size: 18px; }
 .dot.neutral { background: var(--neu-bg); color: var(--neu); border-color: var(--rule-2); }
 /* Guide squares and their header key share one fixed grid so columns always align. */
 .dots.votes { display: grid; grid-auto-flow: column; grid-auto-columns: 22px; gap: 3px; max-width: none; justify-content: end; }
-.dots.key { padding-right: 17px; align-self: flex-end; } /* matches .item-row padding + border */
+.dots.key { align-self: flex-end; }
 .dot.key { background: transparent; color: var(--ink-3); font-size: 9px; letter-spacing: -.02em; }
 .dot.none { background: transparent; border: 1px dashed var(--rule-2); color: var(--rule-2); }
 .tally { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
@@ -322,7 +360,11 @@ table.matrix { border-collapse: collapse; width: 100%; font-size: 13px; }
 @media (max-width: 860px) {
   .cols.n2, .cols.n3 { grid-template-columns: 1fr; }
   .hero, .mine-grid { grid-template-columns: 1fr; }
-  .item-row { grid-template-columns: 52px 1fr; }
+  .item-row, .item-row[data-href] { grid-template-columns: 52px 1fr; }
+  .item-vote { grid-column: 1 / -1; justify-content: flex-start; gap: 10px; border-left: 0; padding: 10px 0 0; border-top: 1px solid var(--rule); }
+  .choice-label { display: inline; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+  .choice-head { display: none; }
+  .pick-list { left: 0; right: auto; width: min(300px, calc(100vw - 72px)); }
   .item-side { grid-column: 1 / -1; align-items: flex-start; }
   .dots { justify-content: flex-start; }
   .dots.votes { justify-content: start; }

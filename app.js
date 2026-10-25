@@ -247,8 +247,8 @@
 
     for (const sec of SECTIONS) {
       const items = ITEMS.filter((i) => i.section === sec.id);
-      const key = sec.id === "races" ? `<span class="muted small">${esc(sec.blurb)}</span>`
-        : `<div class="dots votes key" aria-hidden="true">${activeGuides().map((g) => `<span class="dot key" title="${esc(g.name)}">${ABBR[g.id]}</span>`).join("")}</div>`;
+      const key = `<div class="head-right">${sec.id === "races" ? `<span class="muted small">${esc(sec.blurb)}</span>`
+        : `<div class="dots votes key" aria-hidden="true">${activeGuides().map((g) => `<span class="dot key" title="${esc(g.name)}">${ABBR[g.id]}</span>`).join("")}</div>`}<div class="choice-head">My choices</div></div>`;
       // Each section is its own container so its sticky header releases when the section ends.
       html += `<section class="ballot-section"><div class="section-head"><div><h2>${esc(sec.title)}</h2>${sec.id !== "races" ? `<span class="muted small">${esc(sec.blurb)} · hover a square to see the guide</span>` : ""}</div>${key}</div><div class="item-list">`;
       for (const i of items) html += i.kind === "measure" ? measureRow(i) : raceRow(i);
@@ -265,33 +265,62 @@
       const cls = p ? p.p : "none";
       return `<span class="dot ${cls}" title="${esc(g.name)}: ${p ? POS_LABEL[p.p] : "not covered"}">${p ? POS_SHORT[p.p] : ""}</span>`;
     }).join("");
-    return `<a class="item-row" href="#/item/${m.id}">
+    return `<div class="item-row" data-href="#/item/${m.id}">
       <div class="item-badge ${m.id.length > 2 ? "long" : ""}">${esc(m.id)}</div>
       <div class="item-main">
-        <div class="item-title">${esc(m.nickname)}</div>
+        <a class="item-title" href="#/item/${m.id}">${esc(m.nickname)}</a>
         <div class="item-sub">${esc(m.title)} · ${esc(m.type)}</div>
       </div>
       <div class="item-side">
         <div class="dots votes" aria-label="Guide positions">${dots}</div>
-        <div class="tally"><b class="y">${t.yes} yes</b> · <b class="n">${t.no} no</b>${t.neutral ? ` · ${t.neutral} neutral` : ""}${v ? ` · <span class="my-tag">You: ${POS_LABEL[v]}</span>` : ""}</div>
+        <div class="tally"><b class="y">${t.yes} yes</b> · <b class="n">${t.no} no</b>${t.neutral ? ` · ${t.neutral} neutral` : ""}</div>
       </div>
-    </a>`;
+      <div class="item-vote">
+        <span class="choice-label">My choice</span>
+        <div class="seg inline" role="group" aria-label="Your vote on ${esc(itemLabel(m))}">
+          ${["yes", "no"].map((k) => `<button data-item="${m.id}" data-vote="${k}" class="${v === k ? "on " + k : ""}" aria-pressed="${v === k}">${POS_LABEL[k]}</button>`).join("")}
+        </div>
+      </div>
+    </div>`;
   }
 
   function raceRow(r) {
     const counts = candidateCounts(r).slice(0, 4);
     const v = myVote(r.id) || [];
-    return `<a class="item-row" href="#/item/${r.id}">
+    return `<div class="item-row" data-href="#/item/${r.id}">
       <div class="item-badge long">${esc(badgeText(r))}</div>
       <div class="item-main">
-        <div class="item-title">${esc(r.title)}</div>
+        <a class="item-title" href="#/item/${r.id}">${esc(r.title)}</a>
         <div class="item-sub">${r.candidates.length} candidate${r.candidates.length > 1 ? "s" : ""}${r.seats > 1 ? ` · vote for ${r.seats}` : ""}${r.rcv && r.candidates.length > 1 ? " · ranked choice" : ""}</div>
       </div>
       <div class="item-side">
         <div class="dots">${counts.map(([c, n]) => `<span class="pill pick">${esc(lastName(c))} · ${n}</span>`).join("") || `<span class="muted small">No endorsements from shown guides</span>`}</div>
-        ${v.length ? `<div class="tally"><span class="my-tag">You: ${v.map((c) => esc(lastName(c))).join(", ")}</span></div>` : ""}
       </div>
-    </a>`;
+      <div class="item-vote"><span class="choice-label">My choice</span>${pickMenu(r, v)}</div>
+    </div>`;
+  }
+
+  // Inline candidate picker for a race row: candidates sorted by how many shown guides endorse them.
+  function pickMenu(r, v) {
+    const counts = Object.fromEntries(candidateCounts(r));
+    const cands = [...r.candidates].sort((a, b) => (counts[b] || 0) - (counts[a] || 0));
+    const ranked = r.rcv && r.candidates.length > 1;
+    const summary = v.length ? v.map((c, n) => `${ranked && v.length > 1 ? `${n + 1}. ` : ""}${esc(lastName(c))}`).join(", ") : "Pick";
+    const hint = ranked ? (v.length ? `Pick your #${v.length + 1} choice, or click a pick to remove it` : "Pick your #1 choice") : r.seats > 1 ? `Pick up to ${r.seats}` : "Pick one";
+    return `<details class="pick-menu" data-menu="${r.id}">
+      <summary class="${v.length ? "has" : ""}">${v.length ? "✓ " : ""}${summary} <span aria-hidden="true">▾</span></summary>
+      <div class="pick-list">
+        <div class="pick-hint">${hint}</div>
+        ${cands.map((c) => {
+          const i = v.indexOf(c);
+          return `<button data-item="${r.id}" data-pick="${esc(c)}" class="${i >= 0 ? "on" : ""}" aria-pressed="${i >= 0}">
+            <span class="mark">${i >= 0 ? (ranked ? i + 1 : "✓") : ""}</span>
+            <span class="name">${esc(c)}</span>
+            <span class="n">${counts[c] ? `${counts[c]} guide${counts[c] === 1 ? "" : "s"}` : ""}</span></button>`;
+        }).join("")}
+        ${v.length ? `<button class="pick-clear" data-item="${r.id}" data-clear-pick>Clear</button>` : ""}
+      </div>
+    </details>`;
   }
 
   function viewItem(id) {
@@ -620,10 +649,17 @@
   });
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("button, a, [data-close]");
-    if (!t) return;
+    // Close any open inline pick menu when clicking outside it.
+    $$(".pick-menu[open]").forEach((m) => { if (!m.contains(e.target)) m.open = false; });
+    const t = e.target.closest("button, a, summary, [data-close]");
+    if (!t) {
+      // Clicking empty space in a ballot row opens its detail page.
+      const row = e.target.closest(".item-row[data-href]");
+      if (row && !window.getSelection().toString()) location.hash = row.dataset.href;
+      return;
+    }
     if (t.hasAttribute("data-close")) { closeModal(); return; }
-    const id = location.hash.split("/")[2];
+    const id = t.dataset.item || location.hash.split("/")[2];
     if (t.dataset.preset) {
       togglePreset(t.dataset.preset);
       save(); rerender(true);
@@ -649,6 +685,9 @@
         v.push(c);
       }
       if (v.length) state.votes[id] = v; else delete state.votes[id];
+      save(); rerender();
+    } else if (t.hasAttribute("data-clear-pick")) {
+      delete state.votes[id];
       save(); rerender();
     } else if (t.dataset.view) { state.view = t.dataset.view; save(); rerender(); }
     else if (t.dataset.cell) { const [i, g] = t.dataset.cell.split("|"); openCell(i, g); }
