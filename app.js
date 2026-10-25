@@ -249,9 +249,10 @@
       const items = ITEMS.filter((i) => i.section === sec.id);
       const key = sec.id === "races" ? `<span class="muted small">${esc(sec.blurb)}</span>`
         : `<div class="dots votes key" aria-hidden="true">${activeGuides().map((g) => `<span class="dot key" title="${esc(g.name)}">${ABBR[g.id]}</span>`).join("")}</div>`;
-      html += `<div class="section-head"><div><h2>${esc(sec.title)}</h2>${sec.id !== "races" ? `<span class="muted small">${esc(sec.blurb)} · hover a square to see the guide</span>` : ""}</div>${key}</div><div class="item-list">`;
+      // Each section is its own container so its sticky header releases when the section ends.
+      html += `<section class="ballot-section"><div class="section-head"><div><h2>${esc(sec.title)}</h2>${sec.id !== "races" ? `<span class="muted small">${esc(sec.blurb)} · hover a square to see the guide</span>` : ""}</div>${key}</div><div class="item-list">`;
       for (const i of items) html += i.kind === "measure" ? measureRow(i) : raceRow(i);
-      html += `</div>`;
+      html += `</div></section>`;
     }
     return html;
   }
