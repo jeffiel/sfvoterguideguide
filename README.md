@@ -9,7 +9,7 @@ Open `index.html` in a browser. There is no build step and no server. You can de
 - **Ballot**: every local measure (A–J), the Regional Transit Measure, local races, and the state propositions, each with a strip showing where every guide landed.
 - **Item pages**: a plain-language description of what the measure does, links to the official legal text, and the arguments for YES and NO in columns. A "Compare guides side by side" mode lets you pick any set of guides to read next to each other.
 - **Grid**: a matrix of every guide against every item. Click a cell to read that guide's reasoning.
-- **Perspective filter**: presets (Progressive, Moderate / pro-housing, Conservative / business, Nonpartisan / policy, Political parties, One from each side), plus per-guide checkboxes and an "only" shortcut. The filter applies site-wide and is saved. Presets are defined in `PRESETS` in `data.js`.
+- **Perspective filter**: multi-select presets that combine (union) their guides (Progressive, Moderate / pro-housing, Conservative / business, Nonpartisan / policy, Political parties, One from each side), plus per-guide checkboxes and an "only" shortcut. The filter applies site-wide and is saved. Presets are defined in `PRESETS` in `data.js`.
 - **Guides**: who each guide is, how much it covers, and how much reasoning it publishes. You can hide guides site-wide.
 - **My ballot**: record your picks (saved in localStorage only), see which guides you agree with most, print the page, or share it as a link.
 

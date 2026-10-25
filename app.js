@@ -28,6 +28,7 @@
     try { s = JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { /* ignore */ }
     return {
       hidden: new Set(s.hidden || []),
+      presets: s.presets || [],
       votes: s.votes || {},
       compare: s.compare || {},
       view: s.view || "position",
@@ -35,7 +36,7 @@
   }
   function save() {
     localStorage.setItem(STORE_KEY, JSON.stringify({
-      hidden: [...state.hidden], votes: state.votes, compare: state.compare, view: state.view,
+      hidden: [...state.hidden], presets: state.presets, votes: state.votes, compare: state.compare, view: state.view,
     }));
     updateNavCount();
   }
@@ -107,24 +108,52 @@
   // ---------------------------------------------------------------- shared bits
   function presetGuides(p) { return p.guides || GUIDES.map((g) => g.id); }
 
-  function currentPreset() {
-    const active = activeGuides().map((g) => g.id).sort().join();
-    return PRESETS.find((p) => presetGuides(p).slice().sort().join() === active) || null;
+  const PRESET = Object.fromEntries(PRESETS.map((p) => [p.id, p]));
+  const unionGuides = (ids) => new Set(ids.flatMap((id) => presetGuides(PRESET[id])));
+  const sameSet = (a, b) => a.size === b.size && [...a].every((x) => b.has(x));
+
+  // The perspectives currently in effect. Uses the saved multi-selection if it
+  // still matches the visible guides; otherwise falls back to a single exact
+  // match. An empty list means the user has a custom guide selection.
+  function selectedPresets() {
+    const active = new Set(activeGuides().map((g) => g.id));
+    const saved = state.presets.filter((id) => PRESET[id]);
+    if (saved.length && sameSet(unionGuides(saved), active)) return saved;
+    const one = PRESETS.find((p) => sameSet(new Set(presetGuides(p)), active));
+    return one ? [one.id] : [];
+  }
+
+  function applyPresets(ids) {
+    state.presets = ids;
+    const keep = unionGuides(ids);
+    state.hidden = new Set(GUIDES.map((g) => g.id).filter((id) => !keep.has(id)));
+  }
+
+  function togglePreset(id) {
+    let sel = selectedPresets().filter((x) => x !== "all");
+    if (id === "all") sel = ["all"];
+    else sel = sel.includes(id) ? sel.filter((x) => x !== id) : [...sel, id];
+    applyPresets(sel.length ? sel : ["all"]);
   }
 
   function filterSummary() {
-    const p = currentPreset();
+    const sel = selectedPresets();
     const n = activeGuides().length;
-    return `Showing ${n} of ${GUIDES.length} guides${p && p.id !== "all" ? ` · ${p.label}` : !p ? " · Custom" : ""}`;
+    const label = !sel.length ? " · Custom" : sel[0] === "all" ? "" : ` · ${sel.map((id) => PRESET[id].label).join(" + ")}`;
+    return `Showing ${n} of ${GUIDES.length} guides${label}`;
   }
 
   function guideToggles() {
-    const p = currentPreset();
+    const sel = selectedPresets();
+    const desc = !sel.length ? "Your own selection."
+      : sel.length === 1 ? esc(PRESET[sel[0]].desc)
+      : `Combining ${sel.map((id) => `<b>${esc(PRESET[id].label)}</b>`).join(" + ")}.`;
     return `<div class="filter">
       <div class="filter-row">
         <span class="label">Perspective</span>
-        <div class="presets">${PRESETS.map((x) => `<button class="preset ${p && p.id === x.id ? "on" : ""}" data-preset="${x.id}" title="${esc(x.desc)}">${esc(x.label)}</button>`).join("")}
-          ${!p ? `<span class="preset on custom">Custom</span>` : ""}</div>
+        <div class="presets" role="group" aria-label="Perspectives (select one or more)">${PRESETS.map((x) => `<button class="preset ${sel.includes(x.id) ? "on" : ""}" data-preset="${x.id}" aria-pressed="${sel.includes(x.id)}" title="${esc(x.desc)}">${x.id !== "all" && sel.includes(x.id) ? "✓ " : ""}${esc(x.label)}</button>`).join("")}
+          ${!sel.length ? `<span class="preset on custom">Custom</span>` : ""}
+          <span class="muted small">Select one or more</span></div>
       </div>
       <div class="filter-row">
         <span class="label">Guides</span>
@@ -133,7 +162,7 @@
           <button class="only" data-only-guide="${g.id}" title="Show only ${esc(g.name)}">only</button></span>`).join("")}
           <button class="btn ghost small" data-no-guides>Clear</button></div>
       </div>
-      <p class="filter-desc">${p ? esc(p.desc) : "Your own selection."} <span class="muted">${filterSummary()}. Groupings are approximate. The filter applies to tallies, the grid, and your agreement scores, and it's saved in this browser.</span></p>
+      <p class="filter-desc">${desc} <span class="muted">Showing ${activeGuides().length} of ${GUIDES.length} guides. Groupings are approximate. The filter applies to tallies, the grid, and your agreement scores, and it's saved in this browser.</span></p>
     </div>`;
   }
 
@@ -595,8 +624,7 @@
     if (t.hasAttribute("data-close")) { closeModal(); return; }
     const id = location.hash.split("/")[2];
     if (t.dataset.preset) {
-      const keep = new Set(presetGuides(PRESETS.find((p) => p.id === t.dataset.preset)));
-      state.hidden = new Set(GUIDES.map((g) => g.id).filter((id) => !keep.has(id)));
+      togglePreset(t.dataset.preset);
       save(); rerender(true);
     } else if (t.dataset.onlyGuide) {
       state.hidden = new Set(GUIDES.map((g) => g.id).filter((id) => id !== t.dataset.onlyGuide));
