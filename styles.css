@@ -380,3 +380,22 @@ table.matrix { border-collapse: collapse; width: 100%; font-size: 13px; }
 .hidden-line { font-size: 13px; color: var(--ink-3); padding: 6px 4px 2px; border-top: 1px dashed var(--rule-2); }
 .linkish { border: 0; background: none; padding: 0; color: var(--accent); font-weight: 600; cursor: pointer; text-decoration: underline; font-size: inherit; }
 .site-footer .credit { margin-top: 8px; }
+
+/* ---------- "Which district am I?" callout ---------- */
+.district-callout {
+  background: var(--pick-bg); border: 1px solid #c5d5f0; border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px;
+  display: grid; gap: 8px;
+}
+.district-callout .dc-text { font-size: 15px; }
+.district-callout .dc-text .small { display: block; margin-top: 2px; }
+.dc-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.dc-row input {
+  flex: 1 1 260px; min-width: 0; font: inherit; font-size: 15px; padding: 8px 12px; border: 1px solid var(--rule-2); border-radius: 8px; background: var(--paper);
+}
+.dc-row input:focus { outline: 2px solid var(--pick); outline-offset: 0; border-color: var(--pick); }
+.dc-error { color: var(--no); font-weight: 600; font-size: 14px; }
+.dc-note { font-size: 12px; color: var(--ink-3); }
+.dc-note a { color: var(--ink-2); }
+.district-callout.found { grid-template-columns: 1fr auto; align-items: center; }
+.dc-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-width: 860px) { .district-callout.found { grid-template-columns: 1fr; } }

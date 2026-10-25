@@ -6,12 +6,18 @@
   const MEASURES = window.MEASURES;
   const RACES = window.RACES;
   const GUIDE = Object.fromEntries(GUIDES.map((g) => [g.id, g]));
-  const ITEMS = [...MEASURES.map((m) => ({ ...m, kind: "measure" })), ...RACES.map((r) => ({ ...r, kind: "race", section: "races" }))];
+  // Supervisor races (ids D2, D4, …) get their own section and a district number for the address lookup.
+  const supDistrict = (id) => (/^D\d+$/.test(id) ? Number(id.slice(1)) : null);
+  const ITEMS = [
+    ...MEASURES.map((m) => ({ ...m, kind: "measure" })),
+    ...RACES.map((r) => ({ ...r, kind: "race", section: supDistrict(r.id) ? "supervisors" : "races", district: supDistrict(r.id) })),
+  ];
   const ITEM = Object.fromEntries(ITEMS.map((i) => [i.id, i]));
   const SECTIONS = [
     { id: "local", title: "San Francisco Measures", blurb: "Local propositions A–J" },
     { id: "regional", title: "Regional Measure", blurb: "Bay Area transit funding" },
-    { id: "races", title: "Local Races", blurb: "Supervisors, school boards, BART, and citywide offices" },
+    { id: "supervisors", title: "Board of Supervisors", blurb: "Districts 2, 4, 6, 8, and 10 elect a supervisor this year" },
+    { id: "races", title: "Other Local Races", blurb: "School boards, BART, and citywide offices" },
     { id: "state", title: "California Propositions", blurb: "Statewide measures (fewer local guides cover these)" },
   ];
   const ORDER = SECTIONS.flatMap((s) => ITEMS.filter((i) => i.section === s.id).map((i) => i.id));
@@ -32,11 +38,14 @@
       votes: s.votes || {},
       compare: s.compare || {},
       view: s.view || "position",
+      district: s.district || null, // the voter's supervisor district from the address lookup (the address itself is never stored)
+      allDistricts: !!s.allDistricts,
     };
   }
   function save() {
     localStorage.setItem(STORE_KEY, JSON.stringify({
       hidden: [...state.hidden], presets: state.presets, votes: state.votes, compare: state.compare, view: state.view,
+      district: state.district, allDistricts: state.allDistricts,
     }));
     updateNavCount();
   }
@@ -247,14 +256,120 @@
 
     for (const sec of SECTIONS) {
       const items = ITEMS.filter((i) => i.section === sec.id);
-      const key = sec.id === "races" ? `<span class="muted small">${esc(sec.blurb)}</span>`
+      const isRaces = sec.id === "races" || sec.id === "supervisors";
+      const key = isRaces ? `<span class="muted small">${esc(sec.blurb)}</span>`
         : `<div class="dots votes key" aria-hidden="true">${activeGuides().map((g) => `<span class="dot key" title="${esc(g.name)}">${ABBR[g.id]}</span>`).join("")}</div>`;
       // Each section is its own container so its sticky header releases when the section ends.
-      html += `<section class="ballot-section"><div class="section-head"><div><h2>${esc(sec.title)}</h2>${sec.id !== "races" ? `<span class="muted small">${esc(sec.blurb)} · hover a square to see the guide</span>` : ""}</div>${key}</div><div class="item-list">`;
-      for (const i of items) html += i.kind === "measure" ? measureRow(i) : raceRow(i);
+      html += `<section class="ballot-section"><div class="section-head"><div><h2>${esc(sec.title)}</h2>${!isRaces ? `<span class="muted small">${esc(sec.blurb)} · hover a square to see the guide</span>` : ""}</div>${key}</div>`;
+      if (sec.id === "supervisors") html += districtCallout();
+      html += `<div class="item-list">`;
+      for (const i of items) {
+        if (sec.id === "supervisors" && state.district && !state.allDistricts && i.district !== state.district) continue;
+        html += i.kind === "measure" ? measureRow(i) : raceRow(i);
+      }
       html += `</div></section>`;
     }
     return html;
+  }
+
+  // ---------------------------------------------------------------- district lookup
+  const ON_BALLOT = RACES.map((r) => supDistrict(r.id)).filter(Boolean);
+  const lookup = { busy: false, error: "", matched: "", address: "" }; // address lives only in memory, to refill the field after an error
+
+  function districtCallout() {
+    const d = state.district;
+    if (!d) {
+      return `<form class="district-callout" data-district-form>
+        <div class="dc-text"><strong>Which district am I?</strong> Enter your San Francisco address to see only your supervisor race.</div>
+        <div class="dc-row">
+          <input name="address" type="text" autocomplete="street-address" placeholder="e.g. 1 Dr Carlton B Goodlett Pl" aria-label="Your San Francisco street address" value="${esc(lookup.address)}" required ${lookup.busy ? "disabled" : ""}>
+          <button class="btn primary" type="submit" ${lookup.busy ? "disabled" : ""}>${lookup.busy ? "Looking up…" : "Find my district"}</button>
+        </div>
+        ${lookup.error ? `<div class="dc-error">${esc(lookup.error)}</div>` : ""}
+        <div class="dc-note">Your address is sent to the U.S. Census Bureau's address lookup (or OpenStreetMap if that fails) to find its location, then matched to the official district map in your browser. Only the district number is saved here. Near a district boundary, confirm with the <a href="https://www.sf.gov/departments/department-elections" target="_blank" rel="noopener">Department of Elections</a>.</div>
+      </form>`;
+    }
+    const onBallot = ON_BALLOT.includes(d);
+    return `<div class="district-callout found">
+      <div class="dc-text"><strong>You're in Supervisor District ${d}.</strong>
+        ${onBallot ? (state.allDistricts ? "Showing every district's race." : "Showing only your supervisor race.")
+          : `District ${d} doesn't elect a supervisor this year, so there's no supervisor race on your ballot. Everything else on this page still applies to you.`}
+        ${lookup.matched ? `<span class="muted small">Matched address: ${esc(lookup.matched)}</span>` : ""}</div>
+      <div class="dc-actions">
+        <button class="btn" data-all-districts>${state.allDistricts ? "Show only my district" : "Show all districts"}</button>
+        <button class="btn ghost" data-change-district>Change address</button>
+      </div>
+    </div>`;
+  }
+
+  // Geocode with the Census Bureau (JSONP, since it sends no CORS headers), falling back to Nominatim.
+  function censusGeocode(address) {
+    return new Promise((resolve, reject) => {
+      const cb = `__census${Date.now()}`;
+      const script = document.createElement("script");
+      const done = () => { delete window[cb]; script.remove(); clearTimeout(timer); };
+      const timer = setTimeout(() => { done(); reject(new Error("timeout")); }, 10000);
+      window[cb] = (data) => {
+        done();
+        const m = data && data.result && data.result.addressMatches && data.result.addressMatches[0];
+        resolve(m ? { lat: m.coordinates.y, lon: m.coordinates.x, matched: m.matchedAddress } : null);
+      };
+      script.onerror = () => { done(); reject(new Error("network")); };
+      script.src = `https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?benchmark=Public_AR_Current&format=jsonp&callback=${cb}&address=${encodeURIComponent(address)}`;
+      document.head.appendChild(script);
+    });
+  }
+
+  async function nominatimGeocode(address) {
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&bounded=1&viewbox=-122.53,37.84,-122.35,37.70&q=${encodeURIComponent(address)}`;
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    const [m] = await res.json();
+    return m ? { lat: Number(m.lat), lon: Number(m.lon), matched: m.display_name } : null;
+  }
+
+  let districtsLoaded;
+  function loadDistricts() {
+    districtsLoaded = districtsLoaded || new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "districts.js";
+      script.onload = () => resolve(window.SF_DISTRICTS);
+      script.onerror = () => { districtsLoaded = null; reject(new Error("districts")); };
+      document.head.appendChild(script);
+    });
+    return districtsLoaded;
+  }
+
+  // Even-odd ray casting across all of a district's rings (handles holes and multi-part districts).
+  function inRings(lon, lat, rings) {
+    let inside = false;
+    for (const ring of rings) {
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const [xi, yi] = ring[i], [xj, yj] = ring[j];
+        if ((yi > lat) !== (yj > lat) && lon < ((xj - xi) * (lat - yi)) / (yj - yi) + xi) inside = !inside;
+      }
+    }
+    return inside;
+  }
+
+  async function findDistrict(raw) {
+    // Add the city only when the person didn't give one (a comma or ZIP code usually means they did).
+    const address = /,|san francisco|\bsf\b|\b9\d{4}\b/i.test(raw) ? raw : `${raw}, San Francisco, CA`;
+    lookup.busy = true; lookup.error = ""; lookup.address = raw; rerender();
+    try {
+      const [districts, place] = await Promise.all([
+        loadDistricts(),
+        censusGeocode(address).catch(() => null).then((p) => p || nominatimGeocode(address).catch(() => null)),
+      ]);
+      if (!place) throw new Error("We couldn't find that address. Try the street number and name, e.g. \"123 Main St\".");
+      const hit = districts.find((d) => inRings(place.lon, place.lat, d.rings));
+      if (!hit) throw new Error("That address doesn't appear to be in San Francisco.");
+      state.district = hit.d; state.allDistricts = false; lookup.matched = place.matched || ""; lookup.address = "";
+      save();
+    } catch (err) {
+      lookup.error = err.message === "districts" ? "Couldn't load the district map. Check your connection and try again." : err.message;
+    }
+    lookup.busy = false;
+    rerender();
   }
 
   function measureRow(m) {
@@ -604,6 +719,14 @@
   }
 
   // ---------------------------------------------------------------- events
+  document.addEventListener("submit", (e) => {
+    const form = e.target.closest("[data-district-form]");
+    if (!form) return;
+    e.preventDefault();
+    const address = form.address.value.trim();
+    if (address && !lookup.busy) findDistrict(address);
+  });
+
   document.addEventListener("change", (e) => {
     const t = e.target;
     if (t.dataset.toggleGuide) {
@@ -650,6 +773,11 @@
       }
       if (v.length) state.votes[id] = v; else delete state.votes[id];
       save(); rerender();
+    } else if (t.hasAttribute("data-all-districts")) {
+      state.allDistricts = !state.allDistricts; save(); rerender();
+    } else if (t.hasAttribute("data-change-district")) {
+      state.district = null; state.allDistricts = false; lookup.matched = ""; lookup.error = ""; lookup.address = ""; save(); rerender();
+      $("[data-district-form] input")?.focus();
     } else if (t.dataset.view) { state.view = t.dataset.view; save(); rerender(); }
     else if (t.dataset.cell) { const [i, g] = t.dataset.cell.split("|"); openCell(i, g); }
     else if (t.hasAttribute("data-print")) window.print();
