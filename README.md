@@ -2,7 +2,7 @@
 
 An interactive, static website that shows what San Francisco's major voter guides recommend and lets voters read the guides' reasoning side by side, with links to each original source.
 
-**Live site: https://sfvoterguideguide.com**
+**Live site: https://sfvoterguidevoterguide.com**
 
 Open `index.html` in a browser to run it locally. There is no build step and no server.
 
