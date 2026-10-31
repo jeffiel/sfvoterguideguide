@@ -399,3 +399,148 @@ table.matrix { border-collapse: collapse; width: 100%; font-size: 13px; }
 .district-callout.found { grid-template-columns: 1fr auto; align-items: center; }
 .dc-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 @media (max-width: 860px) { .district-callout.found { grid-template-columns: 1fr; } }
+
+/* =====================================================================
+   Upside Down mode (body.upside): see the opposite of chosen guides.
+   A Stranger Things–style dark theme so the mode is impossible to miss.
+   ===================================================================== */
+.upside-toggle {
+  border: 1px solid var(--rule-2); background: var(--paper); border-radius: 8px; padding: 7px 12px; cursor: pointer;
+  font-weight: 600; font-size: 14px; color: var(--ink-2); white-space: nowrap; margin-left: 6px;
+}
+.upside-toggle:hover { border-color: var(--ink-3); color: var(--ink); }
+.upside-toggle .flip-icon { display: inline-block; transition: transform .4s; }
+.ud-lights, .ud-spores { display: none; }
+
+body.upside {
+  --bg: #07090d; --paper: #10151c; --ink: #ece4d4; --ink-2: #c7bdac; --ink-3: #8c8273;
+  --rule: #2b1d21; --rule-2: #4d2a30; --accent: #ff2a2a;
+  --yes: #3fd0b5; --yes-bg: rgba(63, 208, 181, .13); --no: #ff4040; --no-bg: rgba(255, 64, 64, .15);
+  --neu: #a49a8a; --neu-bg: #1b2028; --pick: #8ea6ff; --pick-bg: rgba(142, 166, 255, .14);
+  --shadow: 0 0 0 1px rgba(255, 42, 42, .05), 0 6px 20px rgba(0, 0, 0, .5);
+  --serif: "ITC Benguiat", Benguiat, "Bookman Old Style", Bookman, "URW Bookman", Georgia, serif;
+  color-scheme: dark;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(255, 30, 30, .22), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(120, 0, 30, .25), transparent 70%),
+    linear-gradient(#07090d, #0a0d12);
+  background-attachment: fixed;
+}
+body.upside main, body.upside .site-footer { position: relative; z-index: 1; }
+body.upside .site-header { background: rgba(10, 12, 17, .92); backdrop-filter: blur(6px); border-bottom-color: #3a1418; box-shadow: 0 2px 24px rgba(255, 0, 0, .12); }
+
+/* Neon-red serif headings */
+body.upside h1, body.upside h2, body.upside .brand-text strong, body.upside .section-head h2, body.upside .ub-title {
+  color: #ff2a2a; font-weight: 800; letter-spacing: .01em;
+  text-shadow: 0 0 2px rgba(255, 120, 120, .9), 0 0 10px rgba(255, 0, 0, .55), 0 0 26px rgba(255, 0, 0, .3);
+}
+body.upside .brand-mark { transform: rotate(180deg); background: #ff2a2a; box-shadow: 0 0 14px rgba(255, 0, 0, .6); }
+body.upside .section-head { border-bottom-color: #ff2a2a; box-shadow: -12px 0 0 var(--bg), 12px 0 0 var(--bg), 0 1px 12px rgba(255, 0, 0, .25); }
+
+/* Controls that used dark ink as a fill need light-on-red in the dark theme */
+body.upside .nav a.active, body.upside .btn.primary, body.upside .preset.on, body.upside .detail-badge,
+body.upside .matrix thead th.me, body.upside .filter-compact[open] > summary, body.upside .seg button.on.plain {
+  background: #ff2a2a; border-color: #ff2a2a; color: #0a0a0a;
+}
+body.upside .btn.primary:disabled { opacity: .45; cursor: not-allowed; }
+body.upside .upside-toggle { background: #ff2a2a; border-color: #ff2a2a; color: #0a0a0a; box-shadow: 0 0 12px rgba(255, 0, 0, .5); }
+body.upside .upside-toggle .flip-icon { transform: rotate(180deg); }
+body.upside .note { background: #2a1d10; border-color: #6b4a1a; color: var(--ink); }
+body.upside .district-callout { border-color: #2e3a66; }
+body.upside .matrix td.neutral button { background: #161b22; }
+body.upside .item-row:hover { border-color: #ff2a2a; box-shadow: 0 0 0 1px rgba(255, 42, 42, .4), 0 0 18px rgba(255, 0, 0, .18); }
+body.upside .reason blockquote { background: #0c1016; }
+
+/* The suggested opposite action, always visually separate from the guide's real recommendation */
+.flip-note {
+  font-size: 13px; color: var(--ink-2); background: rgba(255, 42, 42, .08); border: 1px solid rgba(255, 42, 42, .45);
+  border-left: 3px solid #ff2a2a; border-radius: 6px; padding: 7px 10px; margin: 10px 0 0;
+}
+.ud-label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: #ff4d4d; }
+.ud-row-action { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.ud-result {
+  margin-top: 18px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center;
+  border: 1px solid #5a1f25; border-radius: var(--radius); padding: 14px 18px;
+  background: linear-gradient(90deg, var(--paper), rgba(255, 42, 42, .1));
+}
+.ud-step { display: grid; gap: 6px; font-size: 15px; line-height: 1.7; }
+.ud-step:last-child { border-left: 1px solid #5a1f25; padding-left: 18px; }
+.ud-arrow { font-size: 28px; color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 0, 0, .6); }
+.pill.big { font-size: 18px; padding: 4px 16px; }
+.matrix th.ud-col, .matrix td.ud-col { background: rgba(255, 42, 42, .08); border-left: 2px solid #ff2a2a; border-right: 2px solid #ff2a2a; padding: 4px 6px; white-space: nowrap; }
+.matrix th.ud-col { color: #ff4d4d; }
+@media (max-width: 860px) {
+  .ud-result { grid-template-columns: 1fr; }
+  .ud-arrow { transform: rotate(90deg); justify-self: start; }
+  .ud-step:last-child { border-left: 0; padding-left: 0; border-top: 1px solid #5a1f25; padding-top: 10px; }
+}
+.flip-note b { color: var(--ink); }
+.pill.inv { background: rgba(255, 42, 42, .16); color: #ff6b6b; text-transform: none; letter-spacing: 0; font-size: 13px; }
+.pill.avoid { text-transform: none; letter-spacing: 0; }
+
+/* Banner that replaces the guide filter while upside down */
+.upside-bar { border-color: #5a1f25; background: linear-gradient(180deg, rgba(255, 42, 42, .08), transparent), var(--paper); }
+.upside-bar .ub-title { font-family: var(--serif); font-size: 22px; }
+.upside-bar p { margin: 6px 0 10px; color: var(--ink-2); }
+.ub-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Christmas lights strung along the bottom of the header */
+body.upside .ud-lights {
+  display: block; position: fixed; left: 0; right: 0; top: calc(var(--header-h, 64px) - 6px); height: 20px; z-index: 25; pointer-events: none;
+  background:
+    radial-gradient(circle at 12px 11px, #ff3b3b 4px, rgba(255, 59, 59, .35) 6px, transparent 9px),
+    radial-gradient(circle at 44px 13px, #ffd23b 4px, rgba(255, 210, 59, .35) 6px, transparent 9px),
+    radial-gradient(circle at 76px 11px, #3bff8a 4px, rgba(59, 255, 138, .35) 6px, transparent 9px),
+    radial-gradient(circle at 108px 13px, #3bb5ff 4px, rgba(59, 181, 255, .35) 6px, transparent 9px),
+    radial-gradient(circle at 140px 11px, #ff7b3b 4px, rgba(255, 123, 59, .35) 6px, transparent 9px),
+    linear-gradient(transparent 6px, #1a1a1a 6px, #1a1a1a 7px, transparent 7px);
+  background-size: 160px 20px;
+  animation: ud-flicker 5s steps(1) infinite;
+}
+@keyframes ud-flicker {
+  0%, 100% { opacity: 1; filter: brightness(1.1); }
+  12% { opacity: .55; filter: brightness(.7); }
+  14% { opacity: 1; filter: brightness(1.2); }
+  47% { opacity: .85; }
+  49% { opacity: .3; filter: brightness(.5); }
+  51% { opacity: 1; filter: brightness(1.15); }
+  78% { opacity: .7; }
+}
+
+/* Drifting spores */
+body.upside .ud-spores {
+  display: block; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .55;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 120px 80px, #ffd7d7, transparent),
+    radial-gradient(2px 2px at 200px 160px, #fff, transparent),
+    radial-gradient(1px 1px at 300px 40px, #fbe, transparent),
+    radial-gradient(1.5px 1.5px at 380px 220px, #fff, transparent),
+    radial-gradient(1px 1px at 60px 260px, #ffe, transparent);
+  background-size: 420px 300px;
+  animation: ud-drift 40s linear infinite;
+}
+@keyframes ud-drift { from { background-position: 0 0; } to { background-position: 140px -600px; } }
+
+/* The flip when switching modes */
+body.flipping #app { animation: ud-flip .8s cubic-bezier(.2, .7, .2, 1); transform-origin: 50% 0; }
+@keyframes ud-flip { from { transform: perspective(1200px) rotateX(-75deg); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* Guide picker modal */
+.upside-modal .modal-card { max-width: 680px; }
+body.upside .modal-card { border: 1px solid #5a1f25; box-shadow: 0 0 40px rgba(255, 0, 0, .25); }
+.inv-section { margin-top: 14px; }
+.inv-section > .label { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; color: var(--ink-3); margin-bottom: 6px; }
+.inv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; }
+.inv-guide { display: flex; gap: 8px; align-items: flex-start; border: 1px solid var(--rule-2); border-radius: 8px; padding: 8px 10px; cursor: pointer; }
+.inv-guide.on { border-color: #ff2a2a; background: rgba(255, 42, 42, .08); }
+.inv-guide input { margin-top: 3px; accent-color: #ff2a2a; }
+.inv-guide small { display: block; color: var(--ink-3); font-size: 12px; }
+.inv-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.upside-go:not(:disabled) { background: #b3121b; border-color: #b3121b; color: #fff; }
+
+@media (max-width: 520px) { .upside-toggle .label { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  body.upside .ud-lights, body.upside .ud-spores, body.flipping #app { animation: none; }
+}
+@media print { .ud-lights, .ud-spores, .upside-toggle { display: none !important; } }

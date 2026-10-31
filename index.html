@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Upside Down decorations: hidden unless body.upside -->
+  <div class="ud-lights" aria-hidden="true"></div>
+  <div class="ud-spores" aria-hidden="true"></div>
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="#/">
@@ -24,6 +27,9 @@
         <a href="#/matrix" data-nav="matrix">Grid</a>
         <a href="#/guides" data-nav="guides">Guides</a>
         <a href="#/mine" data-nav="mine">My ballot <span class="nav-count" id="nav-count"></span></a>
+        <button id="upside-toggle" class="upside-toggle" data-upside-toggle aria-pressed="false" title="See the opposite of the guides you disagree with">
+          <span class="flip-icon" aria-hidden="true">⇅</span> <span class="label">Upside Down</span>
+        </button>
       </nav>
     </div>
   </header>
