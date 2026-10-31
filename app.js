@@ -51,6 +51,44 @@
       upside: state.upside, inverted: [...state.inverted],
     }));
     updateNavCount();
+    syncUrl();
+  }
+
+  // ---------------------------------------------------------------- shareable URL
+  // The query string mirrors the mode and the chosen guides, so a copied link opens the same view:
+  //   ?guides=spur,lwv     regular mode showing only those guides (omitted when all are shown)
+  //   ?upside=spur,growsf  Upside Down mode, voting against those guides
+  // Routes stay in the hash (#/item/A), so in-app navigation keeps the query string as is.
+  const GUIDE_IDS = () => window.GUIDES.map((g) => g.id);
+
+  function syncUrl() {
+    const params = new URLSearchParams(location.search);
+    params.delete("guides"); params.delete("upside");
+    if (state.upside) params.set("upside", GUIDE_IDS().filter((id) => state.inverted.has(id)).join(","));
+    else if (state.hidden.size) params.set("guides", GUIDE_IDS().filter((id) => !state.hidden.has(id)).join(","));
+    const qs = params.toString().replace(/%2C/g, ",");
+    const url = `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`;
+    if (url !== `${location.pathname}${location.search}${location.hash}`) history.replaceState(null, "", url);
+  }
+
+  // A link's mode and guides win over this browser's saved settings.
+  function readUrl() {
+    const params = new URLSearchParams(location.search);
+    const list = (key) => (params.get(key) || "").split(",").filter((id) => GUIDE_IDS().includes(id));
+    if (params.has("upside") && list("upside").length) {
+      state.upside = true;
+      state.inverted = new Set(list("upside"));
+    } else if (params.has("guides")) {
+      const shown = new Set(list("guides"));
+      state.upside = false;
+      state.hidden = new Set(GUIDE_IDS().filter((id) => !shown.has(id)));
+      state.presets = [];
+    } else if (params.has("upside")) {
+      state.upside = false; // ?upside= with no valid guides: fall back to regular mode
+    } else {
+      return;
+    }
+    save();
   }
 
   // In the Upside Down, the guides on screen are exactly the ones being voted against.
@@ -844,7 +882,7 @@
     $("#app").innerHTML = html;
     $$(".nav a").forEach((a) => a.classList.toggle("active", a.dataset.nav === nav));
     const t = parts[0] === "item" && ITEM[parts[1]] ? `${pagerLabel(ITEM[parts[1]])} — ` : "";
-    document.title = `${t}SF Ballot Compare — November 3, 2026`;
+    document.title = `${t}San Francisco Voter Guide Voter Guide — November 3, 2026`;
   }
 
   function rerender(keepFilterOpen) {
@@ -862,7 +900,7 @@
         state.votes = votes; save();
       }
     } catch (e) { /* ignore bad links */ }
-    history.replaceState(null, "", "#/mine");
+    history.replaceState(null, "", `${location.pathname}${location.search}#/mine`);
   }
 
   // ---------------------------------------------------------------- events
@@ -952,7 +990,7 @@
     else if (t.hasAttribute("data-clear")) { if (confirm("Clear all your picks?")) { state.votes = {}; save(); rerender(); } }
     else if (t.hasAttribute("data-share")) {
       const code = btoa(unescape(encodeURIComponent(JSON.stringify(state.votes))));
-      const url = `${location.origin}${location.pathname}#/mine?v=${code}`;
+      const url = `${location.origin}${location.pathname}${location.search}#/mine?v=${code}`;
       (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(
         () => { t.textContent = "Link copied ✓"; },
         () => prompt("Copy this link:", url),
@@ -977,7 +1015,9 @@
   const setHeaderHeight = () => document.documentElement.style.setProperty("--header-h", `${$(".site-header").offsetHeight}px`);
   new ResizeObserver(setHeaderHeight).observe($(".site-header"));
   setHeaderHeight();
+  readUrl();
   applyUpsideDown();
   updateNavCount();
+  syncUrl();
   route();
 })();

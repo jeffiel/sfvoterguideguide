@@ -8,7 +8,7 @@ Open `index.html` in a browser to run it locally. There is no build step and no 
 
 ## Deployment
 
-The site is hosted on Cloudflare. Every push to `main` triggers a Cloudflare build, which deploys to https://sfvoterguideguide.com. GitHub Pages is not used.
+The site is hosted on Cloudflare. Every push to `main` triggers a Cloudflare build, which deploys to https://sfvoterguidevoterguide.com. GitHub Pages is not used.
 
 ## Features
 
